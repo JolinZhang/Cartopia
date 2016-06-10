@@ -71,7 +71,7 @@
 
     <!--sign up  button-->
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/logon_btn"
+        android:id="@+id/signup_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

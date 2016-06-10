@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +20,16 @@ public class MainActivity extends AppCompatActivity {
     private int mMediumAnimationDuration;
     private boolean mContentLoaded;
 
-
+    private EditText _login_username;
+    private EditText _login_passport;
     private Button _loginButton;
+
+    private EditText _singup_username;
+    private EditText _signup_email;
+    private EditText _signup_passport;
+    private EditText _signup_confirm_passport;
+    private Button _signup_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,29 +56,79 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // log in button operations
+
+        //get log in widgets
+        _login_username = (EditText) findViewById(R.id.logon_username);
+        _login_passport = (EditText) findViewById(R.id.logon_passport);
         _loginButton = (Button) findViewById(R.id.logon_btn);
+
         // log in button operations
         _loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 login();
             }
-
         });
 
+        //get sign up widgets
+        _singup_username = (EditText) findViewById(R.id.signup_username);
+        _signup_email = (EditText) findViewById(R.id.signup_email);
+        _signup_passport = (EditText) findViewById(R.id.signup_passport);
+        _signup_confirm_passport = (EditText) findViewById(R.id.signup_confirm_passport);
+        _signup_btn = (Button) findViewById(R.id.signup_btn);
 
+        //sign up button operations
+        _signup_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+               
+            }
+        });
     }
 
+    //log in function
     public void login() {
-//        Log.d(TAG, "Login");
+        if (!login_validate()) {
+            onLoginFailed();
+            return;
+        }
 
+        //login success operation
+        _loginButton.setEnabled(false);
     }
 
-
+    //log in failed operation
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
         _loginButton.setEnabled(true);
+    }
+
+    //validation of username and passport
+    public boolean login_validate(){
+        boolean valid = true;
+        String login_username = _login_username.getText().toString();
+        String login_passport = _login_passport.getText().toString();
+
+        if(login_username.isEmpty()){
+            _login_username.setError("can not be empty");
+            valid = false;
+        }else if(login_username.length() >= 20){
+            _login_username.setError("at most 20 characters");
+            valid = false;
+        }else{
+            _login_username.setError(null);
+        }
+
+        if(login_passport.isEmpty()){
+            _login_passport.setError("can not be empty");
+            valid = false;
+        }else if(login_passport.length() < 6){
+            _login_passport.setError("at least 6 characters");
+            valid = false;
+        }else{
+            _login_passport.setError(null);
+        }
+        return valid;
     }
 
 
