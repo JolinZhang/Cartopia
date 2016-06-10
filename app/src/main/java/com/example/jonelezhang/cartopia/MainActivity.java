@@ -8,24 +8,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv;
-    private View tview;
     private View mContentView;
     private View mLoadingView;
-    private View myView;
     private int mMediumAnimationDuration;
     private boolean mContentLoaded;
+
+
+    private Button _loginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // dynamic change between sign up and log on
         tv = (TextView)findViewById(R.id.text_signup);
-        tview = findViewById(R.id.text_signup);
-        myView = findViewById(R.id.main_activity);
+
         mContentView = findViewById(R.id.logon_box);
         mLoadingView = findViewById(R.id.signup_box);
 
@@ -35,43 +37,76 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve and cache the system's default "short" animation time.
         mMediumAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
+        // animation between sign up and log on
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContentLoaded = !mContentLoaded;
                 showContentOrLoadingIndicator(mContentLoaded);
+                showSignupIndicator(mContentLoaded);
             }
         });
 
-        if(mContentLoaded == false) {
-            mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    // Layout has happened here.
-                    int s = mContentView.getBottom();
-                    tv.setY(s + 5);
-                    // Don't forget to remove your listener when you are done with it.
-                    mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
-        }
-        if(mContentLoaded == true){
-            mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    // Layout has happened here.
-                    int s = mLoadingView.getBottom();
-                    tv.setY(s + 5);
-                    // Don't forget to remove your listener when you are done with it.
-                    mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
-        }
+        // log in button operations
+        _loginButton = (Button) findViewById(R.id.logon_btn);
+        // log in button operations
+        _loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+
+        });
 
 
     }
 
+    public void login() {
+//        Log.d(TAG, "Login");
 
+    }
+
+
+    public void onLoginFailed() {
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        _loginButton.setEnabled(true);
+    }
+
+
+
+
+  // animation  of sign up login text indicator
+   private void showSignupIndicator(boolean contentLoaded){
+       // redesign the position of text of sign up and log in
+       if(contentLoaded == false) {
+           mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+               @Override
+               public void onGlobalLayout() {
+                   // Layout has happened here.
+                   int s = mContentView.getBottom();
+                   tv.setY(s + 5);
+                   tv.setText("No account yet? Create one");
+                   // Don't forget to remove your listener when you are done with it.
+                   mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+               }
+           });
+       }
+       if(contentLoaded == true){
+           mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+               @Override
+               public void onGlobalLayout() {
+                   // Layout has happened here.
+                   int s = mLoadingView.getBottom();
+                   tv.setY(s + 5);
+                   tv.setText("Already a member? Login");
+                   // Don't forget to remove your listener when you are done with it.
+                   mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+               }
+           });
+       }
+   }
+
+    // animation of changing sign up and log in
     private void showContentOrLoadingIndicator(boolean contentLoaded) {
         // Decide which view to hide and which to show.
 
@@ -102,17 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
-
-//    @Override
-//    protected void onResume()
-//    {
-//        // TODO Auto-generated method stub
-//        super.onResume();
-//
-//        int s = mContentView.getBottom();
-//        int d = mLoadingView.getBottom();
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
