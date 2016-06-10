@@ -43,28 +43,28 @@
             android:inputType="textEmailAddress"/>
     </android.support.design.widget.TextInputLayout>
 
-    <!--Passport Label-->
+    <!--Password Label-->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signup_passport"
-            android:hint="Passport"
+            android:id="@+id/signup_password"
+            android:hint="Password"
             android:inputType="textPassword"
             android:minLines="6" />
     </android.support.design.widget.TextInputLayout>
 
-    <!--Confirm Passport Label-->
+    <!--Confirm Password Label-->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signup_confirm_passport"
-            android:hint="Confirm Passport"
+            android:id="@+id/signup_confirm_password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
             android:minLines="6" />
     </android.support.design.widget.TextInputLayout>

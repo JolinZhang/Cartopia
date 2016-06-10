@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean mContentLoaded;
 
     private EditText _login_username;
-    private EditText _login_passport;
+    private EditText _login_password;
     private Button _loginButton;
 
     private EditText _singup_username;
     private EditText _signup_email;
-    private EditText _signup_passport;
-    private EditText _signup_confirm_passport;
+    private EditText _signup_password;
+    private EditText _signup_confirm_password;
     private Button _signup_btn;
 
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get log in widgets
         _login_username = (EditText) findViewById(R.id.logon_username);
-        _login_passport = (EditText) findViewById(R.id.logon_passport);
+        _login_password = (EditText) findViewById(R.id.logon_password);
         _loginButton = (Button) findViewById(R.id.logon_btn);
 
         // log in button operations
@@ -73,15 +73,15 @@ public class MainActivity extends AppCompatActivity {
         //get sign up widgets
         _singup_username = (EditText) findViewById(R.id.signup_username);
         _signup_email = (EditText) findViewById(R.id.signup_email);
-        _signup_passport = (EditText) findViewById(R.id.signup_passport);
-        _signup_confirm_passport = (EditText) findViewById(R.id.signup_confirm_passport);
+        _signup_password = (EditText) findViewById(R.id.signup_password);
+        _signup_confirm_password = (EditText) findViewById(R.id.signup_confirm_password);
         _signup_btn = (Button) findViewById(R.id.signup_btn);
 
         //sign up button operations
         _signup_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-               
+               signup();
             }
         });
     }
@@ -103,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
         _loginButton.setEnabled(true);
     }
 
-    //validation of username and passport
+    //validation of username and password
     public boolean login_validate(){
         boolean valid = true;
         String login_username = _login_username.getText().toString();
-        String login_passport = _login_passport.getText().toString();
+        String login_password = _login_password.getText().toString();
 
         if(login_username.isEmpty()){
             _login_username.setError("can not be empty");
@@ -119,22 +119,83 @@ public class MainActivity extends AppCompatActivity {
             _login_username.setError(null);
         }
 
-        if(login_passport.isEmpty()){
-            _login_passport.setError("can not be empty");
+        if(login_password.isEmpty()){
+            _login_password.setError("can not be empty");
             valid = false;
-        }else if(login_passport.length() < 6){
-            _login_passport.setError("at least 6 characters");
+        }else if(login_password.length() < 6){
+            _login_password.setError("at least 6 characters");
             valid = false;
         }else{
-            _login_passport.setError(null);
+            _login_password.setError(null);
         }
         return valid;
     }
 
+    //sign up function
+    public void signup() {
+        if (!signup_validate()) {
+            onsignupFailed();
+            return;
+        }
 
+        //signup success operation
+        _signup_btn.setEnabled(false);
+    }
 
+    //sign up  failed operation
+    public void onsignupFailed() {
+        Toast.makeText(getBaseContext(), "Sign Up failed", Toast.LENGTH_SHORT).show();
+        _signup_btn.setEnabled(true);
+    }
 
-  // animation  of sign up login text indicator
+    //validation of sign up username, email and password
+    public boolean signup_validate(){
+        boolean valid = true;
+        String signup_username = _singup_username.getText().toString();
+        String signup_email = _signup_email.getText().toString();
+        String signup_password= _signup_password.getText().toString();
+        String signup_confirm_password = _signup_confirm_password.getText().toString();
+        //username valid
+        if(signup_username.isEmpty()){
+            _singup_username.setError("can not be empty");
+            valid = false;
+        }else if(signup_username.length() >= 20){
+            _singup_username.setError("at most 20 characters");
+            valid = false;
+        }else{
+            _singup_username.setError(null);
+        }
+        //email valid
+        if (signup_email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(signup_email).matches()) {
+            _signup_email.setError("enter a valid email address");
+            valid = false;
+        } else {
+            _signup_email.setError(null);
+        }
+       // password valid
+        if(signup_password.isEmpty()){
+            _signup_password.setError("can not be empty");
+            valid = false;
+        }else if(signup_password.length() < 6){
+            _signup_password.setError("at least 6 characters");
+            valid = false;
+        }else{
+            _signup_password.setError(null);
+        }
+        //confirm password valid
+        if(signup_confirm_password.isEmpty()){
+            _signup_confirm_password.setError("can not be empty");
+            valid = false;
+        }else if(! signup_confirm_password.equals(signup_password)){
+            _signup_confirm_password.setError("not equal to password");
+            valid = false;
+        }else{
+            _signup_confirm_password.setError(null);
+        }
+        return valid;
+    }
+
+    // animation  of sign up login text indicator
    private void showSignupIndicator(boolean contentLoaded){
        // redesign the position of text of sign up and log in
        if(contentLoaded == false) {

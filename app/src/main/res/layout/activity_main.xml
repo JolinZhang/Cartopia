@@ -62,7 +62,7 @@
                 android:inputType="textPersonName"
                 android:maxLength="20"/>
         </android.support.design.widget.TextInputLayout>
-        <!--Passport Label-->
+        <!--Password Label-->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,8 +70,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/logon_passport"
-                android:hint="Passport"
+                android:id="@+id/logon_password"
+                android:hint="Password"
                 android:inputType="textPassword"
                 android:minLines="6" />
         </android.support.design.widget.TextInputLayout>
