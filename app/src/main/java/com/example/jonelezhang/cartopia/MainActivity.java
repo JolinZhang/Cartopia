@@ -7,20 +7,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv;
+    private View tview;
     private View mContentView;
     private View mLoadingView;
-    private int mShortAnimationDuration;
+    private View myView;
+    private int mMediumAnimationDuration;
     private boolean mContentLoaded;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // dynamic change between sign up and log on
-        tv = (TextView)findViewById(R.id.changeto_signup);
+        tv = (TextView)findViewById(R.id.text_signup);
+        tview = findViewById(R.id.text_signup);
+        myView = findViewById(R.id.main_activity);
         mContentView = findViewById(R.id.logon_box);
         mLoadingView = findViewById(R.id.signup_box);
 
@@ -28,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         mLoadingView.setVisibility(View.GONE);
 
         // Retrieve and cache the system's default "short" animation time.
-        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
+        mMediumAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +42,36 @@ public class MainActivity extends AppCompatActivity {
                 showContentOrLoadingIndicator(mContentLoaded);
             }
         });
+
+        if(mContentLoaded == false) {
+            mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Layout has happened here.
+                    int s = mContentView.getBottom();
+                    tv.setY(s + 5);
+                    // Don't forget to remove your listener when you are done with it.
+                    mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
+        if(mContentLoaded == true){
+            mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Layout has happened here.
+                    int s = mLoadingView.getBottom();
+                    tv.setY(s + 5);
+                    // Don't forget to remove your listener when you are done with it.
+                    mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
+
+
     }
+
+
     private void showContentOrLoadingIndicator(boolean contentLoaded) {
         // Decide which view to hide and which to show.
 
@@ -53,25 +86,33 @@ public class MainActivity extends AppCompatActivity {
 
         showView.animate()
                 .alpha(1f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(mMediumAnimationDuration)
                 .setListener(null);
 
         // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
         // to GONE as an optimization step (it won't participate in layout passes, etc.)
         hideView.animate()
                 .alpha(0f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(mMediumAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         hideView.setVisibility(View.GONE);
                     }
                 });
+
     }
 
-
-
-
+//    @Override
+//    protected void onResume()
+//    {
+//        // TODO Auto-generated method stub
+//        super.onResume();
+//
+//        int s = mContentView.getBottom();
+//        int d = mLoadingView.getBottom();
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

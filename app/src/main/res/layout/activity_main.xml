@@ -95,17 +95,17 @@
             android:background="#3f51b5"
             android:elevation="10dp" />
     </LinearLayout>
-
+    <include layout="@layout/signup" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/changeto_signup"
+        android:id="@+id/text_signup"
         android:text="No account yet? Create one"
         android:textColor="#ffffff"
         android:textSize="15dp"
-        android:layout_below="@+id/logon_box"
         android:gravity="center"
         android:layout_marginTop="20dp"
+        android:background="#ee0000"
         />
-    <include layout="@layout/signup" />
+
 </RelativeLayout>
