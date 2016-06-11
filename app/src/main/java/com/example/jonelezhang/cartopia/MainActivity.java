@@ -7,18 +7,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView tv;
+    private TextView logon_tv;
+    private TextView signup_tv;
     private View mContentView;
     private View mLoadingView;
     private int mMediumAnimationDuration;
-    private boolean mContentLoaded;
 
     private EditText _login_username;
     private EditText _login_password;
@@ -35,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // dynamic change between sign up and log on
-        tv = (TextView)findViewById(R.id.text_signup);
+        logon_tv = (TextView)findViewById(R.id.text_logon);
+
+        // dynamic change between sign up and log on
+        signup_tv = (TextView)findViewById(R.id.text_signup);
 
         mContentView = findViewById(R.id.logon_box);
         mLoadingView = findViewById(R.id.signup_box);
@@ -47,14 +49,65 @@ public class MainActivity extends AppCompatActivity {
         mMediumAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         // animation between sign up and log on
-        tv.setOnClickListener(new View.OnClickListener() {
+        logon_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContentLoaded = !mContentLoaded;
-                showContentOrLoadingIndicator(mContentLoaded);
-                showSignupIndicator(mContentLoaded);
+                // Set the "show" view to 0% opacity but visible, so that it is visible
+                // (but fully transparent) during the animation.
+                mLoadingView.setAlpha(0f);
+                mLoadingView.setVisibility(View.VISIBLE);
+
+                mLoadingView.animate()
+                        .alpha(1f)
+                        .setDuration(mMediumAnimationDuration)
+                        .setListener(null);
+
+                // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
+                // to GONE as an optimization step (it won't participate in layout passes, etc.)
+                mContentView.animate()
+                        .alpha(0f)
+                        .setDuration(mMediumAnimationDuration)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mContentView.setVisibility(View.GONE);
+                            }
+                        });
             }
         });
+
+        // animation between sign up and log on
+        signup_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Set the "show" view to 0% opacity but visible, so that it is visible
+                // (but fully transparent) during the animation.
+                mContentView.setAlpha(0f);
+                mContentView.setVisibility(View.VISIBLE);
+
+                mContentView.animate()
+                        .alpha(1f)
+                        .setDuration(mMediumAnimationDuration)
+                        .setListener(null);
+
+                // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
+                // to GONE as an optimization step (it won't participate in layout passes, etc.)
+                mLoadingView.animate()
+                        .alpha(0f)
+                        .setDuration(mMediumAnimationDuration)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mLoadingView.setVisibility(View.GONE);
+                            }
+                        });
+
+
+
+
+            }
+        });
+
 
 
         //get log in widgets
@@ -78,23 +131,36 @@ public class MainActivity extends AppCompatActivity {
         _signup_btn = (Button) findViewById(R.id.signup_btn);
 
         //sign up button operations
-        _signup_btn.setOnClickListener(new View.OnClickListener(){
+        _signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               signup();
+                signup();
             }
         });
+
+
+
     }
+
 
     //log in function
     public void login() {
-        if (!login_validate()) {
+        //get content of login username and password
+        String login_username = _login_username.getText().toString();
+        String login_password = _login_password.getText().toString();
+
+        if (!login_validate(login_username, login_password)) {
             onLoginFailed();
             return;
         }
 
         //login success operation
         _loginButton.setEnabled(false);
+        login_connectWithHttpGet(login_username, login_password);
+    }
+
+    //login connect with http get method
+    private void login_connectWithHttpGet(String givenUsername, String givenPassword) {
     }
 
     //log in failed operation
@@ -104,10 +170,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //validation of username and password
-    public boolean login_validate(){
+    public boolean login_validate(String login_username, String login_password){
         boolean valid = true;
-        String login_username = _login_username.getText().toString();
-        String login_password = _login_password.getText().toString();
 
         if(login_username.isEmpty()){
             _login_username.setError("can not be empty");
@@ -130,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return valid;
     }
+
+
 
     //sign up function
     public void signup() {
@@ -195,66 +261,73 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
-    // animation  of sign up login text indicator
-   private void showSignupIndicator(boolean contentLoaded){
-       // redesign the position of text of sign up and log in
-       if(contentLoaded == false) {
-           mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-               @Override
-               public void onGlobalLayout() {
-                   // Layout has happened here.
-                   int s = mContentView.getBottom();
-                   tv.setY(s + 5);
-                   tv.setText("No account yet? Create one");
-                   // Don't forget to remove your listener when you are done with it.
-                   mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-               }
-           });
-       }
-       if(contentLoaded == true){
-           mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-               @Override
-               public void onGlobalLayout() {
-                   // Layout has happened here.
-                   int s = mLoadingView.getBottom();
-                   tv.setY(s + 5);
-                   tv.setText("Already a member? Login");
-                   // Don't forget to remove your listener when you are done with it.
-                   mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-               }
-           });
-       }
-   }
+//    // animation  of sign up login text indicator
+//   private void showSignupIndicator(boolean contentLoaded){
+//       // redesign the position of text of sign up and log in
+//       if(contentLoaded == false) {
+//           mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//               @Override
+//               public void onGlobalLayout() {
+//                   // Layout has happened here.
+//                   int s = mContentView.getBottom();
+//                   tv.animate()
+//                           .y(s+5)
+//                           .setDuration(mMediumAnimationDuration)
+//                           .setListener(null);
+//
+//                   tv.setText("No account yet? Create one");
+//                   // Don't forget to remove your listener when you are done with it.
+//                   mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//               }
+//           });
+//       }
+//       if(contentLoaded == true){
+//           mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//               @Override
+//               public void onGlobalLayout() {
+//                   // Layout has happened here.
+//                   int s = mLoadingView.getBottom();
+//                   tv.animate()
+//                           .y(s+5)
+//                           .setDuration(mMediumAnimationDuration)
+//                           .setListener(null);
+//                   tv.setText("Already a member? Login");
+//                   // Don't forget to remove your listener when you are done with it.
+//                   mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//               }
+//           });
+//       }
+//   }
 
     // animation of changing sign up and log in
     private void showContentOrLoadingIndicator(boolean contentLoaded) {
         // Decide which view to hide and which to show.
 
-        final View showView = contentLoaded ? mLoadingView : mContentView;
-        final View hideView = contentLoaded ? mContentView : mLoadingView;
+//        final View showView = contentLoaded ? mLoadingView : mContentView;
+//        final View hideView = contentLoaded ? mContentView : mLoadingView;
 
         // Set the "show" view to 0% opacity but visible, so that it is visible
         // (but fully transparent) during the animation.
-        showView.setAlpha(0f);
-        showView.setVisibility(View.VISIBLE);
-
-
-        showView.animate()
-                .alpha(1f)
-                .setDuration(mMediumAnimationDuration)
-                .setListener(null);
-
-        // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
-        // to GONE as an optimization step (it won't participate in layout passes, etc.)
-        hideView.animate()
-                .alpha(0f)
-                .setDuration(mMediumAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        hideView.setVisibility(View.GONE);
-                    }
-                });
+//        showView.setAlpha(0f);
+//        showView.setVisibility(View.VISIBLE);
+//
+//
+//        showView.animate()
+//                .alpha(1f)
+//                .setDuration(mMediumAnimationDuration)
+//                .setListener(null);
+//
+//        // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
+//        // to GONE as an optimization step (it won't participate in layout passes, etc.)
+//        hideView.animate()
+//                .alpha(0f)
+//                .setDuration(mMediumAnimationDuration)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        hideView.setVisibility(View.GONE);
+//                    }
+//                });
 
     }
 

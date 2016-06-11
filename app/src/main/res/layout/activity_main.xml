@@ -29,7 +29,8 @@
         android:text="CARTOPIA"
         android:textColor="#ffffff"
         android:textSize="40dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -89,22 +90,25 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="18dp"
             android:text="Log On"
             android:textColor="#ffffff"
             android:background="#3f51b5"
             android:elevation="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_logon"
+            android:text="No account yet? Create one"
+            android:textColor="#3f51b5"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
     </LinearLayout>
+
     <include layout="@layout/signup" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_signup"
-        android:textColor="#ffffff"
-        android:textSize="15dp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="#ee0000"
-        />
+
 
 </RelativeLayout>
