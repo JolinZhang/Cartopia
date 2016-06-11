@@ -108,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         //get log in widgets
         _login_username = (EditText) findViewById(R.id.logon_username);
         _login_password = (EditText) findViewById(R.id.logon_password);
@@ -122,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 login();
             }
         });
+
 
         //get sign up widgets
         _singup_username = (EditText) findViewById(R.id.signup_username);
@@ -137,9 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
-
-
-
     }
 
 
@@ -261,75 +257,6 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
-//    // animation  of sign up login text indicator
-//   private void showSignupIndicator(boolean contentLoaded){
-//       // redesign the position of text of sign up and log in
-//       if(contentLoaded == false) {
-//           mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//               @Override
-//               public void onGlobalLayout() {
-//                   // Layout has happened here.
-//                   int s = mContentView.getBottom();
-//                   tv.animate()
-//                           .y(s+5)
-//                           .setDuration(mMediumAnimationDuration)
-//                           .setListener(null);
-//
-//                   tv.setText("No account yet? Create one");
-//                   // Don't forget to remove your listener when you are done with it.
-//                   mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//               }
-//           });
-//       }
-//       if(contentLoaded == true){
-//           mLoadingView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//               @Override
-//               public void onGlobalLayout() {
-//                   // Layout has happened here.
-//                   int s = mLoadingView.getBottom();
-//                   tv.animate()
-//                           .y(s+5)
-//                           .setDuration(mMediumAnimationDuration)
-//                           .setListener(null);
-//                   tv.setText("Already a member? Login");
-//                   // Don't forget to remove your listener when you are done with it.
-//                   mLoadingView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//               }
-//           });
-//       }
-//   }
-
-    // animation of changing sign up and log in
-    private void showContentOrLoadingIndicator(boolean contentLoaded) {
-        // Decide which view to hide and which to show.
-
-//        final View showView = contentLoaded ? mLoadingView : mContentView;
-//        final View hideView = contentLoaded ? mContentView : mLoadingView;
-
-        // Set the "show" view to 0% opacity but visible, so that it is visible
-        // (but fully transparent) during the animation.
-//        showView.setAlpha(0f);
-//        showView.setVisibility(View.VISIBLE);
-//
-//
-//        showView.animate()
-//                .alpha(1f)
-//                .setDuration(mMediumAnimationDuration)
-//                .setListener(null);
-//
-//        // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
-//        // to GONE as an optimization step (it won't participate in layout passes, etc.)
-//        hideView.animate()
-//                .alpha(0f)
-//                .setDuration(mMediumAnimationDuration)
-//                .setListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        hideView.setVisibility(View.GONE);
-//                    }
-//                });
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
