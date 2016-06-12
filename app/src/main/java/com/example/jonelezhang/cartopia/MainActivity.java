@@ -2,8 +2,10 @@ package com.example.jonelezhang.cartopia;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
     private TextView logon_tv;
@@ -136,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
+
     }
 
 
@@ -152,12 +169,78 @@ public class MainActivity extends AppCompatActivity {
 
         //login success operation
         _loginButton.setEnabled(false);
-        login_connectWithHttpGet(login_username, login_password);
+
+//        String readJSON = login_connectWithHttpGet(login_username, login_password);
+//        try{
+//            JSONObject jsonObject = new JSONObject(readJSON);
+//            Log.i(MainActivity.class.getName(), jsonObject.getString("id"));
+//        } catch(Exception e){e.printStackTrace();}
+
+
+
     }
 
     //login connect with http get method
-    private void login_connectWithHttpGet(String givenUsername, String givenPassword) {
-    }
+//    private String login_connectWithHttpGet(String givenUsername, String givenPassword) {
+
+//         class HttpGetAsyncTask extends AsyncTask<String, Void, String>{
+//             @Override
+//             protected String doInBackground(String... params) {
+//                 String paramUsername = params[0];
+//                 String paramPassword = params[1];
+//                 HttpClient httpClient = new DefaultHttpClient();
+//                 HttpGet httpGet = new HttpGet("http://localhost:3000/api/login?username=" + paramUsername + "&password=" + paramPassword );
+//                 try{
+//                     HttpResponse httpResponse = httpClient.execute(httpGet);
+//                     InputStream inputStream = httpResponse.getEntity().getContent();
+//                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//                     StringBuilder stringBuilder = new StringBuilder();
+//                     String bufferedStrChunk = null;
+//                     while((bufferedStrChunk = bufferedReader.readLine()) != null){
+//                         stringBuilder.append(bufferedStrChunk);
+//                     }
+//                     return stringBuilder.toString();
+//                 }catch (ClientProtocolException cpe) {
+//
+//                 }catch (IOException ioe){
+//
+//                 }
+//                 return  null;
+//             }
+//         }
+
+            // Create http cliient object to send request to server
+//            HttpClient Client = new DefaultHttpClient();
+//            StringBuilder builder = new StringBuilder();
+//            // Create URL string
+//            String URL = "http://localhost:3000/api/login?username=" + givenUsername + "&password=" + givenPassword;
+//
+//            try
+//            {
+//                HttpGet httpget = new HttpGet(URL);
+//                HttpResponse response = Client.execute(httpget);
+//                int statusCode = response.getStatusLine().getStatusCode();
+//                if(statusCode == 200) {
+//                    InputStream inputStream = response.getEntity().getContent();
+//                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        builder.append(line);
+//                    }
+//                }else{
+//                    Log.e("123","Failedet JSON object");
+//                }
+//            }catch(ClientProtocolException e){
+//                e.printStackTrace();
+//            } catch (IOException e){
+//                e.printStackTrace();
+//            }
+//        return builder.toString();
+//
+//        }
+
+
 
     //log in failed operation
     public void onLoginFailed() {
