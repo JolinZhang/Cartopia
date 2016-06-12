@@ -2,6 +2,7 @@ package com.example.jonelezhang.cartopia;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -169,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
 
         //login success operation
         _loginButton.setEnabled(false);
+
+        //log in correctly
+        startActivity(new Intent(MainActivity.this, Buy.class));
 
 //        String readJSON = login_connectWithHttpGet(login_username, login_password);
 //        try{

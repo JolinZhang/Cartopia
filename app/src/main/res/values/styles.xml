@@ -1,8 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
+    <!--style for main activity-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+    </style>
+    <!--style for buy list-->
+    <style name="BuyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
 </resources>
