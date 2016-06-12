@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
 
 public class Buy extends AppCompatActivity {
     private Toolbar toolbar;
@@ -22,6 +24,15 @@ public class Buy extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         toolbar.setNavigationIcon(R.mipmap.ic_list_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Toast.makeText(getBaseContext(), "nav icon", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
 

@@ -159,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
 
     //log in function
     public void login() {
+
+        //log in correctly
+        startActivity(new Intent(MainActivity.this, Buy.class));
+
         //get content of login username and password
         String login_username = _login_username.getText().toString();
         String login_password = _login_password.getText().toString();
@@ -171,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
         //login success operation
         _loginButton.setEnabled(false);
 
-        //log in correctly
-        startActivity(new Intent(MainActivity.this, Buy.class));
+
 
 //        String readJSON = login_connectWithHttpGet(login_username, login_password);
 //        try{
