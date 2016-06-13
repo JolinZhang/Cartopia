@@ -3,6 +3,7 @@ package com.example.jonelezhang.cartopia;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
@@ -40,20 +41,21 @@ public class Buy extends AppCompatActivity {
         mNavItems.add(new NavDrawerItem("MY CARS"));
         mNavItems.add(new NavDrawerItem("MY FAVS"));
         mNavItems.add(new NavDrawerItem("LOG OUT"));
-
-//        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.navList);
+        
 
         toolbar.setNavigationIcon(R.mipmap.ic_list_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-                mDrawerList = (ListView) findViewById(R.id.navList);
 
-
-
-
+                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }else{
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
                 // Set the adapter for the list view
                 mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
 
