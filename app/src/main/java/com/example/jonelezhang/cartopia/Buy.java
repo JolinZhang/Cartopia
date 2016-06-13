@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Buy extends AppCompatActivity {
     private Toolbar toolbar;
 
-    private String[] mPlanetTitles;
+//    private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> mNavItems;
@@ -29,26 +29,30 @@ public class Buy extends AppCompatActivity {
         setContentView(R.layout.activity_buy);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         mNavItems = new ArrayList<>();
-        mNavItems.add(new NavDrawerItem("Home"));
-        mNavItems.add(new NavDrawerItem("Preferences"));
-        mNavItems.add(new NavDrawerItem("About"));
+        mNavItems.add(new NavDrawerItem("BUY"));
+        mNavItems.add(new NavDrawerItem("SELL"));
+        mNavItems.add(new NavDrawerItem("INFO"));
+        mNavItems.add(new NavDrawerItem("MY CARS"));
+        mNavItems.add(new NavDrawerItem("MY FAVS"));
+        mNavItems.add(new NavDrawerItem("LOG OUT"));
 
+//        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         toolbar.setNavigationIcon(R.mipmap.ic_list_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getBaseContext(), "nav icon", Toast.LENGTH_SHORT).show();
 //                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
                 mDrawerList = (ListView) findViewById(R.id.navList);
+
+
+
 
                 // Set the adapter for the list view
                 mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));

@@ -21,17 +21,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </FrameLayout>
+
         <!-- Listview to display slider menu -->
         <ListView
             android:id="@+id/navList"
-            android:layout_width="240dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:listSelector="@drawable/list_selector"
-            android:background="#aadd11"/>
+            android:divider="@color/SideNavDivider"
+            android:dividerHeight="1dp"
+            android:background="@drawable/side_nav_bg"/>
     </android.support.v4.widget.DrawerLayout>
 
+
+
 </RelativeLayout>
+
