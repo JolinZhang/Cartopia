@@ -4,5 +4,9 @@
     <color name="ColorPrimary">#3F51ee</color>
     <color name="ColorPrimaryDark">#3F51B5</color>
     <color name="TextColorPrimary">#ffffff</color>
+    <color name="SideNavDivider">#979797</color>
+    <color name="list_background_pressed">#372D2D</color>
+    <color name="counter_text_bg">#372D2D</color>
+    <color name="list_item_title">#000000</color>
 
 </resources>

@@ -1,15 +1,27 @@
 package com.example.jonelezhang.cartopia;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Buy extends AppCompatActivity {
     private Toolbar toolbar;
+
+    private String[] mPlanetTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ArrayList<NavDrawerItem> mNavItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +35,34 @@ public class Buy extends AppCompatActivity {
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        mNavItems = new ArrayList<>();
+        mNavItems.add(new NavDrawerItem("Home"));
+        mNavItems.add(new NavDrawerItem("Preferences"));
+        mNavItems.add(new NavDrawerItem("About"));
+
+
         toolbar.setNavigationIcon(R.mipmap.ic_list_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(getBaseContext(), "nav icon", Toast.LENGTH_SHORT).show();
+//                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerList = (ListView) findViewById(R.id.navList);
 
+                // Set the adapter for the list view
+                mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
 
-                Toast.makeText(getBaseContext(), "nav icon", Toast.LENGTH_SHORT).show();
+                // Set the list's click listener
+                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                });
+
             }
         });
-
-
-
-
 
     }
 
