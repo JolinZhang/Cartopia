@@ -5,7 +5,7 @@ package com.example.jonelezhang.cartopia;
  */
 public class BuyCarItem {
     private int id;
-//    private String imageResourcesId;
+    private String imageResourcesId;
     private int  price;
     private int mileage;
     private int year;
@@ -23,9 +23,9 @@ public class BuyCarItem {
     public void setId(Integer id){
         this.id = id;
     }
-//    public void setImageResourceId(String imageResourceId){
-//        this.imageResourcesId = imageResourceId;
-//    }
+    public void setImageResourceId(String imageResourceId){
+        this.imageResourcesId = imageResourceId;
+    }
     public void setPrice(int price){
         this.price = price;
     }
@@ -49,9 +49,9 @@ public class BuyCarItem {
     }
     // get methods
     public int   getId(){return id;}
-//    public String getImageResourceId(){
-//        return imageResourcesId;
-//    }
+    public String getImageResourceId(){
+        return imageResourcesId;
+    }
     public int getPrice(){return price;}
     public int getMileage(){return mileage;}
     public int getYear(){return year;}

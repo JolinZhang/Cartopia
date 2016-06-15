@@ -58,6 +58,7 @@ public class Buy extends AppCompatActivity {
         carItems = new ArrayList<>();
         buyCar = new BuyCarItem();
         buyCar.setId(1);
+        buyCar.setImageResourceId("1");
         buyCar.setPrice(9000);
         buyCar.setMileage(98799);
         buyCar.setYear(1995);

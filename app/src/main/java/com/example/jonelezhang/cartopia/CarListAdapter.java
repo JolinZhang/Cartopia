@@ -40,7 +40,7 @@ public class CarListAdapter extends BaseAdapter {
         }else{
             view = convertView;
         }
-//        ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
+        ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
         TextView buyPrice = (TextView) view.findViewById(R.id.buy_price);
         TextView buyMileage = (TextView) view.findViewById(R.id.buy_mileage);
         TextView buyYear = (TextView) view.findViewById(R.id.buy_year);
@@ -50,6 +50,9 @@ public class CarListAdapter extends BaseAdapter {
         TextView buyState = (TextView) view.findViewById(R.id.buy_state);
 
 
+
+        int id = mContext.getResources().getIdentifier("com.example.jonelezhang.cartopia:drawable/" + "car1", null, null);
+        buyImage.setImageResource(id);
         buyPrice.setText(mCarItems.get(position).getPrice()+"");
         buyMileage.setText(mCarItems.get(position).getMileage()+"");
         buyYear.setText( mCarItems.get(position).getYear()+"");
