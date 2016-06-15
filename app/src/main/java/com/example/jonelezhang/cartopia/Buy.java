@@ -8,20 +8,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Buy extends AppCompatActivity {
+//    tool bar
     private Toolbar toolbar;
-
+//    side navigation
 //    private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> mNavItems;
+//    buy car list
+    private GridView gridView;
+    private ArrayList<BuyCarItem> carItems;
+    private BuyCarItem buyCar;
 
 
     @Override
@@ -29,11 +37,13 @@ public class Buy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
 
+//        tool bar setting
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+//        data for side navigation
         mNavItems = new ArrayList<>();
         mNavItems.add(new NavDrawerItem("BUY"));
         mNavItems.add(new NavDrawerItem("SELL"));
@@ -43,8 +53,23 @@ public class Buy extends AppCompatActivity {
         mNavItems.add(new NavDrawerItem("LOG OUT"));
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navList);
-        
 
+//        data for car buy list
+        carItems = new ArrayList<>();
+        buyCar = new BuyCarItem();
+        buyCar.setId(1);
+        buyCar.setPrice(9000);
+        buyCar.setMileage(98799);
+        buyCar.setYear(1995);
+        buyCar.setModel("MINI");
+        buyCar.setMake("Cooper");
+        buyCar.setCity("Cupertino");
+        buyCar.setState("CA");
+        carItems.add(buyCar);
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridView.setAdapter(new CarListAdapter(Buy.this,carItems));
+
+//        toolbar click issue
         toolbar.setNavigationIcon(R.mipmap.ic_list_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +88,21 @@ public class Buy extends AppCompatActivity {
                 mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                        switch (pos){
+//                            case 0:
+//                                Intent i = new Intent(MainActivity.this,Aluminium.class);
+//                                startActivity(i);
+//                                break;
+//                            case 1:
+//                                Intent i2 = new Intent(MainActivity.this,Gold.class);
+//                                startActivity(i2);
+//                                break;
+//                            case 2:
+//                                Intent i3 = new Intent(MainActivity.this,Zinc.class);
+//                                startActivity(i3);
+//                                break;
+//                        }
 
                     }
                 });
