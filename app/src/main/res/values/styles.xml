@@ -10,5 +10,22 @@
     <style name="BuyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
-
+    <style name="BuyListPrice">
+        <item name="android:textColor">@color/list_item_title</item>
+        <item name="android:fontFamily">sans|serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+    <style name="BuyListMileage" >
+        <item name="android:textColor">@color/list_item_title</item>
+        <item name="android:fontFamily">sans|serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+    <style name="BuyListYearMakeModel">
+        <item name="android:textColor">@color/list_item_title</item>
+        <item name="android:fontFamily">sans|serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15dp</item>
+    </style>
 </resources>

@@ -55,13 +55,13 @@ public class CarListAdapter extends BaseAdapter {
 
 
         Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.car1);
-        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 900, 706, false));
-        buyPrice.setText(mCarItems.get(position).getPrice() + "");
-        buyMileage.setText(mCarItems.get(position).getMileage()+"");
-        buyYear.setText( mCarItems.get(position).getYear()+"");
-        buyMake.setText(mCarItems.get(position).getMake());
-        buyModel.setText( mCarItems.get(position).getModel());
-        buyCity.setText(mCarItems.get(position).getCity());
+        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
+        buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
+        buyMileage.setText(mCarItems.get(position).getMileage()+"mi");
+        buyYear.setText( mCarItems.get(position).getYear()+" ");
+        buyMake.setText(mCarItems.get(position).getMake()+" ");
+        buyModel.setText( mCarItems.get(position).getModel()+" ");
+        buyCity.setText(mCarItems.get(position).getCity()+",");
         buyState.setText( mCarItems.get(position).getState());
         return view;
 
