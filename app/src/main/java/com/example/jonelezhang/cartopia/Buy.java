@@ -71,7 +71,7 @@ public class Buy extends AppCompatActivity {
         gridView.setAdapter(new CarListAdapter(Buy.this,carItems));
 
 //        toolbar click issue
-        toolbar.setNavigationIcon(R.mipmap.ic_list_white);
+        toolbar.setNavigationIcon(R.drawable.ic_list_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

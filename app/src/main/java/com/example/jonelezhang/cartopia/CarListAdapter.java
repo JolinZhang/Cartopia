@@ -1,6 +1,8 @@
 package com.example.jonelezhang.cartopia;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +53,10 @@ public class CarListAdapter extends BaseAdapter {
 
 
 
-        int id = mContext.getResources().getIdentifier("com.example.jonelezhang.cartopia:drawable/" + "car1", null, null);
-        buyImage.setImageResource(id);
-        buyPrice.setText(mCarItems.get(position).getPrice()+"");
+
+        Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.car1);
+        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 900, 706, false));
+        buyPrice.setText(mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage()+"");
         buyYear.setText( mCarItems.get(position).getYear()+"");
         buyMake.setText(mCarItems.get(position).getMake());
