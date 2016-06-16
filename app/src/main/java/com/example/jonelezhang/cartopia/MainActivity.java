@@ -22,6 +22,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,11 +36,18 @@ public class MainActivity extends AppCompatActivity {
     private View mContentView;
     private View mLoadingView;
     private int mMediumAnimationDuration;
-
+    //widget on on log in page
     private EditText _login_username;
     private EditText _login_password;
     private Button _loginButton;
-
+    //JSON
+    private String login_username;
+    private String login_password;
+    private String url;
+    //JSON Node Names
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_ID = "id";
+    //widget on sign up page
     private EditText _singup_username;
     private EditText _signup_email;
     private EditText _signup_password;
@@ -118,10 +126,6 @@ public class MainActivity extends AppCompatActivity {
                                 mLoadingView.setVisibility(View.GONE);
                             }
                         });
-
-
-
-
             }
         });
 
@@ -134,10 +138,10 @@ public class MainActivity extends AppCompatActivity {
         _loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                //log in function to check validation and get json file
                 login();
             }
         });
-
 
         //get sign up widgets
         _singup_username = (EditText) findViewById(R.id.signup_username);
@@ -150,104 +154,58 @@ public class MainActivity extends AppCompatActivity {
         _signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //sign up function check validation and get json file
                 signup();
             }
         });
-
     }
-
 
     //log in function
     public void login() {
-
-        //log in correctly
-        startActivity(new Intent(MainActivity.this, Buy.class));
-
         //get content of login username and password
-        String login_username = _login_username.getText().toString();
-        String login_password = _login_password.getText().toString();
-
+        login_username = _login_username.getText().toString();
+        login_password = _login_password.getText().toString();
+        //check validation of log in
         if (!login_validate(login_username, login_password)) {
+            //fail log in caused by validation
             onLoginFailed();
             return;
         }
-
+        //check username and passport with json file after validation
+        new JSONParse().execute();
         //login success operation
         _loginButton.setEnabled(false);
 
-
-
-//        String readJSON = login_connectWithHttpGet(login_username, login_password);
-//        try{
-//            JSONObject jsonObject = new JSONObject(readJSON);
-//            Log.i(MainActivity.class.getName(), jsonObject.getString("id"));
-//        } catch(Exception e){e.printStackTrace();}
-
-
-
     }
+    //use AsyncTask to run JsonParse on a different thread
+    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            url = "http://cartopia.club/api/login?username=" + login_username + "&password=" + login_password;
+            JsonParser jParser = new JsonParser();
 
-    //login connect with http get method
-//    private String login_connectWithHttpGet(String givenUsername, String givenPassword) {
+            // Getting JSON from URL
+            JSONObject json = jParser.getJsonFromUrl(url);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Storing  JSON item in a Variable
+                String success = json.getString(TAG_SUCCESS);
+                if(success.equals("1")){
+                    String id = json.getString(TAG_ID);
+                    startActivity(new Intent(MainActivity.this, Buy.class));
 
-//         class HttpGetAsyncTask extends AsyncTask<String, Void, String>{
-//             @Override
-//             protected String doInBackground(String... params) {
-//                 String paramUsername = params[0];
-//                 String paramPassword = params[1];
-//                 HttpClient httpClient = new DefaultHttpClient();
-//                 HttpGet httpGet = new HttpGet("http://localhost:3000/api/login?username=" + paramUsername + "&password=" + paramPassword );
-//                 try{
-//                     HttpResponse httpResponse = httpClient.execute(httpGet);
-//                     InputStream inputStream = httpResponse.getEntity().getContent();
-//                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//                     StringBuilder stringBuilder = new StringBuilder();
-//                     String bufferedStrChunk = null;
-//                     while((bufferedStrChunk = bufferedReader.readLine()) != null){
-//                         stringBuilder.append(bufferedStrChunk);
-//                     }
-//                     return stringBuilder.toString();
-//                 }catch (ClientProtocolException cpe) {
-//
-//                 }catch (IOException ioe){
-//
-//                 }
-//                 return  null;
-//             }
-//         }
+                }else{
+                    onLoginFailed();
+                }
 
-            // Create http cliient object to send request to server
-//            HttpClient Client = new DefaultHttpClient();
-//            StringBuilder builder = new StringBuilder();
-//            // Create URL string
-//            String URL = "http://localhost:3000/api/login?username=" + givenUsername + "&password=" + givenPassword;
-//
-//            try
-//            {
-//                HttpGet httpget = new HttpGet(URL);
-//                HttpResponse response = Client.execute(httpget);
-//                int statusCode = response.getStatusLine().getStatusCode();
-//                if(statusCode == 200) {
-//                    InputStream inputStream = response.getEntity().getContent();
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        builder.append(line);
-//                    }
-//                }else{
-//                    Log.e("123","Failedet JSON object");
-//                }
-//            }catch(ClientProtocolException e){
-//                e.printStackTrace();
-//            } catch (IOException e){
-//                e.printStackTrace();
-//            }
-//        return builder.toString();
-//
-//        }
-
-
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     //log in failed operation
     public void onLoginFailed() {
@@ -280,8 +238,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return valid;
     }
-
-
 
     //sign up function
     public void signup() {
