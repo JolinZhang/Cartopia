@@ -118,34 +118,6 @@ public class Buy extends AppCompatActivity {
         // data for car buy list
         new BuyJSONParse().execute();
 
-//        //        data for car buy list
-//        carItems = new ArrayList<>();
-//        buyCar = new BuyCarItem();
-//        buyCar.setId(1);
-//        buyCar.setPrice(9000);
-//        buyCar.setMileage(98799);
-//        buyCar.setYear(1995);
-//        buyCar.setModel("MINI");
-//        buyCar.setMake("Cooper");
-//        buyCar.setCity("Cupertino");
-//        buyCar.setState("CA");
-//        carItems.add(buyCar);
-//
-//        buyCar = new BuyCarItem();
-//        buyCar.setId(2);
-//        buyCar.setPrice(8000);
-//        buyCar.setMileage(98799);
-//        buyCar.setYear(1995);
-//        buyCar.setModel("MINI");
-//        buyCar.setMake("Cooper");
-//        buyCar.setCity("Cupertino");
-//        buyCar.setState("CA");
-//        carItems.add(buyCar);
-//
-//        gridView = (GridView) findViewById(R.id.gridView);
-//        adapter = new CarListAdapter(Buy.this,carItems);
-//        gridView.setAdapter(adapter);
-
     }
     //use AsyncTask to run JsonParse on a different thread
     private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {

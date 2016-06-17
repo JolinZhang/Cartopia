@@ -3,6 +3,8 @@ package com.example.jonelezhang.cartopia;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +49,7 @@ public class CarListAdapter extends BaseAdapter {
         }else{
             view = convertView;
         }
-
+        //get all widgets on car list card
         TextView buyPrice = (TextView) view.findViewById(R.id.buy_price);
         TextView buyMileage = (TextView) view.findViewById(R.id.buy_mileage);
         TextView buyYear = (TextView) view.findViewById(R.id.buy_year);
@@ -56,27 +58,43 @@ public class CarListAdapter extends BaseAdapter {
         TextView buyCity = (TextView) view.findViewById(R.id.buy_city);
         TextView buyState = (TextView) view.findViewById(R.id.buy_state);
 
+        // initial bitmap as  null
+        final ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
+        Bitmap output = null;
+        buyImage.setImageBitmap(output);
+        //get and set image in a separate thread
         new Thread(new Runnable(){
             @Override
             public void run() {
                 try {
                     try {
+                        //get image bitmap inputStream
                         String imageUrl = "http://cartopia.club/assets/user_car/"+mCarItems.get(position).getImageResourceId();
-                        Bitmap image = BitmapFactory.decodeStream((InputStream)new URL(imageUrl).getContent());
-                        ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
-                        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
+                        Bitmap src = BitmapFactory.decodeStream((InputStream) new URL(imageUrl).getContent());
+
+                        //rescale bitmap size. factor is 0.5
+                        Matrix m = new Matrix();
+                        int width = src.getWidth();
+                        int height = src.getHeight();
+                        int scaledWidth = (int) (width * 0.5);
+                        int scaledHeight = (int) (height * 0.5);
+                        m.setRectToRect(new RectF(0, 0, width , height), new RectF(0, 0, scaledWidth, scaledHeight), Matrix.ScaleToFit.CENTER);
+                        Bitmap output = Bitmap.createBitmap(src, 0, 0, width, height, m, true);
+                        // set image on image view buyImage
+                        buyImage.setImageBitmap(output);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }).start();
 
+
+        //set all info on car list card
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage()+"mi");
         buyYear.setText( mCarItems.get(position).getYear()+" ");
