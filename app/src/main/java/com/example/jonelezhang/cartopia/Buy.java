@@ -1,8 +1,10 @@
 package com.example.jonelezhang.cartopia;
 
+import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,22 +17,40 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Buy extends AppCompatActivity {
-//    tool bar
+    //tool bar
     private Toolbar toolbar;
-//    side navigation
+    //side navigation
 //    private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> mNavItems;
-//    buy car list
+    //buy car list
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
     private BuyCarItem buyCar;
 
+    //JSON
+    private String url;
+    private JSONArray cars;
+    private String strUrl;
+    static JSONArray obj = null;
+    //JSON Node Names
+    private static final String TAG_PICTURE = "picture";
+    private static final String TAG_YEAR = "year";
+    private static final String TAG_MAKE = "make";
+    private static final String TAG_MODEL = "model";
+    private static final String TAG_PRICE = "price";
+    private static final String TAG_MILEAGE = "mileage";
+    private static final String TAG_CITY = "city";
+    private static final String TAG_STATE = "state";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +75,7 @@ public class Buy extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.navList);
 
 //        data for car buy list
-        carItems = new ArrayList<>();
-        buyCar = new BuyCarItem();
-        buyCar.setId(1);
-        buyCar.setImageResourceId("1");
-        buyCar.setPrice(9000);
-        buyCar.setMileage(98799);
-        buyCar.setYear(1995);
-        buyCar.setModel("MINI");
-        buyCar.setMake("Cooper");
-        buyCar.setCity("Cupertino");
-        buyCar.setState("CA");
-        carItems.add(buyCar);
-        gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new CarListAdapter(Buy.this,carItems));
+//        new BuyJSONParse().execute();
 
 //        toolbar click issue
         toolbar.setNavigationIcon(R.drawable.ic_list_white);
@@ -107,10 +114,53 @@ public class Buy extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
+    }
+    //use AsyncTask to run JsonParse on a different thread
+    private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            url = "http://cartopia.club/api/cars";
+            JsonParser jParser = new JsonParser();
+            // Getting JSON from URL
+            strUrl = jParser.getJsonFromUrl(url);
+            // Getting JSON from URL
+            try {
+                obj = new JSONArray(strUrl);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return obj;
+        }
+        @Override
+        protected void onPostExecute(JSONArray json) {
+            try {
+                // Storing  JSON item in a Variable
+                carItems = new ArrayList<>();
+                if(json != null){
+                    for(int i=0; i<json.length(); i++) {
+                        JSONObject finalObject = json.getJSONObject(i);
+                        buyCar = new BuyCarItem();
+                        buyCar.setImageResourceId(finalObject.getString(TAG_PICTURE));
+                        buyCar.setPrice(Integer.parseInt(finalObject.getString(TAG_PRICE)));
+                        buyCar.setMileage(Integer.parseInt(finalObject.getString(TAG_MILEAGE)));
+                        buyCar.setYear(Integer.parseInt(finalObject.getString(TAG_YEAR)));
+                        buyCar.setMake(finalObject.getString(TAG_MAKE));
+                        buyCar.setModel(finalObject.getString(TAG_MODEL));
+                        buyCar.setCity(finalObject.getString(TAG_CITY));
+                        buyCar.setState(finalObject.getString(TAG_STATE));
+                        carItems.add(buyCar);
+                    }
+                }
+                gridView = (GridView) findViewById(R.id.gridView);
+                gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
 
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

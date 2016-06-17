@@ -24,6 +24,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private String login_username;
     private String login_password;
     private String url;
+    private String strUrl;
+    static JSONObject obj = null;
     //JSON Node Names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_ID = "id";
@@ -184,9 +187,15 @@ public class MainActivity extends AppCompatActivity {
             url = "http://cartopia.club/api/login?username=" + login_username + "&password=" + login_password;
             JsonParser jParser = new JsonParser();
 
+            //Getting String from URL
+            strUrl = jParser.getJsonFromUrl(url);
             // Getting JSON from URL
-            JSONObject json = jParser.getJsonFromUrl(url);
-            return json;
+            try {
+                obj = new JSONObject(strUrl);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return obj;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
@@ -196,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                 if(success.equals("1")){
                     String id = json.getString(TAG_ID);
                     startActivity(new Intent(MainActivity.this, Buy.class));
-
                 }else{
                     onLoginFailed();
                 }

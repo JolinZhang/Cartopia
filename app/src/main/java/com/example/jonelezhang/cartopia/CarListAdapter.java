@@ -10,6 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -34,15 +38,15 @@ public class CarListAdapter extends BaseAdapter {
     public long getItemId(int position){return position;}
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        View view;
+    public View getView(final int position, View convertView, ViewGroup parent){
+        final View view;
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.buy_list_item,null);
         }else{
             view = convertView;
         }
-        ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
+
         TextView buyPrice = (TextView) view.findViewById(R.id.buy_price);
         TextView buyMileage = (TextView) view.findViewById(R.id.buy_mileage);
         TextView buyYear = (TextView) view.findViewById(R.id.buy_year);
@@ -51,11 +55,31 @@ public class CarListAdapter extends BaseAdapter {
         TextView buyCity = (TextView) view.findViewById(R.id.buy_city);
         TextView buyState = (TextView) view.findViewById(R.id.buy_state);
 
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    try {
+                        String imageUrl = "http://cartopia.club/assets/user_car/"+mCarItems.get(position).getImageResourceId();
+                        Bitmap image = BitmapFactory.decodeStream((InputStream)new URL(imageUrl).getContent());
+                        ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
+                        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
 
 
+//        Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.car1);
+//        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
 
-        Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.car1);
-        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage()+"mi");
         buyYear.setText( mCarItems.get(position).getYear()+" ");
