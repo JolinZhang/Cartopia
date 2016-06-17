@@ -36,6 +36,7 @@ public class Buy extends AppCompatActivity {
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
     private BuyCarItem buyCar;
+    private CarListAdapter adapter;
 
     //JSON
     private String url;
@@ -71,31 +72,28 @@ public class Buy extends AppCompatActivity {
         mNavItems.add(new NavDrawerItem("MY CARS"));
         mNavItems.add(new NavDrawerItem("MY FAVS"));
         mNavItems.add(new NavDrawerItem("LOG OUT"));
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navList);
-
-//        data for car buy list
-//        new BuyJSONParse().execute();
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerList = (ListView) findViewById(R.id.navList);
 
 //        toolbar click issue
-        toolbar.setNavigationIcon(R.drawable.ic_list_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-
-                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                }else{
-                    mDrawerLayout.openDrawer(Gravity.LEFT);
-                }
-                // Set the adapter for the list view
-                mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
-
-                // Set the list's click listener
-                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        toolbar.setNavigationIcon(R.drawable.ic_list_white);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+//
+//                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+//                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+//                }else{
+//                    mDrawerLayout.openDrawer(Gravity.LEFT);
+//                }
+//                // Set the adapter for the list view
+//                mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
+//
+//                // Set the list's click listener
+//                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 //                        switch (pos){
 //                            case 0:
@@ -111,11 +109,43 @@ public class Buy extends AppCompatActivity {
 //                                startActivity(i3);
 //                                break;
 //                        }
+//
+//                    }
+//                });
+//            }
+//        });
 
-                    }
-                });
-            }
-        });
+        // data for car buy list
+        new BuyJSONParse().execute();
+
+//        //        data for car buy list
+//        carItems = new ArrayList<>();
+//        buyCar = new BuyCarItem();
+//        buyCar.setId(1);
+//        buyCar.setPrice(9000);
+//        buyCar.setMileage(98799);
+//        buyCar.setYear(1995);
+//        buyCar.setModel("MINI");
+//        buyCar.setMake("Cooper");
+//        buyCar.setCity("Cupertino");
+//        buyCar.setState("CA");
+//        carItems.add(buyCar);
+//
+//        buyCar = new BuyCarItem();
+//        buyCar.setId(2);
+//        buyCar.setPrice(8000);
+//        buyCar.setMileage(98799);
+//        buyCar.setYear(1995);
+//        buyCar.setModel("MINI");
+//        buyCar.setMake("Cooper");
+//        buyCar.setCity("Cupertino");
+//        buyCar.setState("CA");
+//        carItems.add(buyCar);
+//
+//        gridView = (GridView) findViewById(R.id.gridView);
+//        adapter = new CarListAdapter(Buy.this,carItems);
+//        gridView.setAdapter(adapter);
+
     }
     //use AsyncTask to run JsonParse on a different thread
     private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {
@@ -153,13 +183,12 @@ public class Buy extends AppCompatActivity {
                         carItems.add(buyCar);
                     }
                 }
-                gridView = (GridView) findViewById(R.id.gridView);
-                gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            gridView = (GridView) findViewById(R.id.gridView);
+            gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
+
         }
     }
 

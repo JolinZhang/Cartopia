@@ -22,10 +22,12 @@ import java.util.ArrayList;
 public class CarListAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<BuyCarItem> mCarItems;
+    private static LayoutInflater inflater = null;
 
     public CarListAdapter(Context context, ArrayList<BuyCarItem> carItems){
         mContext = context;
         mCarItems = carItems;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount(){
@@ -41,8 +43,7 @@ public class CarListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent){
         final View view;
         if(convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.buy_list_item,null);
+            view = inflater.inflate(R.layout.buy_list_item,null);
         }else{
             view = convertView;
         }
@@ -75,10 +76,6 @@ public class CarListAdapter extends BaseAdapter {
                 }
             }
         }).start();
-
-
-//        Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.car1);
-//        buyImage.setImageBitmap(Bitmap.createScaledBitmap(image, 800, 660, false));
 
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage()+"mi");
