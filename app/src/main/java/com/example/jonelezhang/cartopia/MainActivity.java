@@ -41,12 +41,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText _login_username;
     private EditText _login_password;
     private Button _loginButton;
-    //JSON
+    //login JSON
     private String login_username;
     private String login_password;
     private String url;
     private String strUrl;
     static JSONObject obj = null;
+    //sign up JSON
+    private String signup_username;
+    private String signup_email;
+    private String signup_password;
+    private String signup_password_confirmation;
+    private String sign_url;
+    private String sign_strUrl;
+    static JSONObject sign_obj = null;
     //JSON Node Names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_ID = "id";
@@ -178,27 +186,26 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //check username and passport with json file after validation
-        new JSONParse().execute();
+        new Login_JSONParse().execute();
         //login success operation
         _loginButton.setEnabled(false);
 
     }
     //use AsyncTask to run JsonParse on a different thread
-    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+    private class Login_JSONParse extends AsyncTask<String, String, JSONObject> {
         @Override
         protected JSONObject doInBackground(String... args) {
-            url = "http://cartopia.club/api/login?username=" + login_username + "&password=" + login_password;
+            sign_url = "http://cartopia.club/api/login?username=" + login_username + "&password=" + login_password;
             JsonParser jParser = new JsonParser();
-
             //Getting String from URL
-            strUrl = jParser.getJsonFromUrl(url);
+            sign_strUrl = jParser.getJsonFromUrl(sign_url);
             // Getting JSON from URL
             try {
-                obj = new JSONObject(strUrl);
+                sign_obj = new JSONObject(sign_strUrl);
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
-            return obj;
+            return sign_obj;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
@@ -252,15 +259,55 @@ public class MainActivity extends AppCompatActivity {
 
     //sign up function
     public void signup() {
-        if (!signup_validate()) {
+        signup_username = _singup_username.getText().toString();
+        signup_email = _signup_email.getText().toString();
+        signup_password= _signup_password.getText().toString();
+        signup_password_confirmation = _signup_confirm_password.getText().toString();
+
+        if (!signup_validate(signup_username,signup_email,  signup_password, signup_password_confirmation)) {
             onsignupFailed();
             return;
         }
-
+        //check username and passport with json file after validation
+        new Signup_JSONParse().execute();
         //signup success operation
         _signup_btn.setEnabled(false);
     }
 
+    //use AsyncTask to run JsonParse on a different thread
+    private class Signup_JSONParse extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            url = "http://cartopia.club/api/signup?username=" + signup_username + "&email=" +signup_email+ "&password=" + signup_password + "&password_confirmation=" + signup_password_confirmation;
+            JsonParser jParser = new JsonParser();
+            //Getting String from URL
+            strUrl = jParser.getJsonFromUrl(url);
+            // Getting JSON from URL
+            try {
+                obj = new JSONObject(strUrl);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return obj;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Storing  JSON item in a Variable
+                String success = json.getString(TAG_SUCCESS);
+                if(success.equals("1")){
+                    String id = json.getString(TAG_ID);
+                    startActivity(new Intent(MainActivity.this, Buy.class));
+                }else{
+                    onsignupFailed();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     //sign up  failed operation
     public void onsignupFailed() {
         Toast.makeText(getBaseContext(), "Sign Up failed", Toast.LENGTH_SHORT).show();
@@ -268,12 +315,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //validation of sign up username, email and password
-    public boolean signup_validate(){
+    public boolean signup_validate(String signup_username, String signup_email, String signup_password, String signup_confirm_password){
         boolean valid = true;
-        String signup_username = _singup_username.getText().toString();
-        String signup_email = _signup_email.getText().toString();
-        String signup_password= _signup_password.getText().toString();
-        String signup_confirm_password = _signup_confirm_password.getText().toString();
         //username valid
         if(signup_username.isEmpty()){
             _singup_username.setError("can not be empty");
