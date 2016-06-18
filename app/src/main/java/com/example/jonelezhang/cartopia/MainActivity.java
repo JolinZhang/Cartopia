@@ -165,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
     //log in function
     public void login() {
+
+//        startActivity(new Intent(MainActivity.this, Buy.class));
+
         //get content of login username and password
         login_username = _login_username.getText().toString();
         login_password = _login_password.getText().toString();

@@ -2,6 +2,7 @@ package com.example.jonelezhang.cartopia;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,16 +29,18 @@ public class Buy extends AppCompatActivity {
     //tool bar
     private Toolbar toolbar;
     //side navigation
-//    private String[] mPlanetTitles;
+    private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> mNavItems;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
     //buy car list
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
     private BuyCarItem buyCar;
     private CarListAdapter adapter;
-
     //JSON
     private String url;
     private JSONArray cars;
@@ -58,38 +61,44 @@ public class Buy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
 
-//        tool bar setting
+        //tool bar setting
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setTitle(null);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-//        data for side navigation
-        mNavItems = new ArrayList<>();
-        mNavItems.add(new NavDrawerItem("BUY"));
-        mNavItems.add(new NavDrawerItem("SELL"));
-        mNavItems.add(new NavDrawerItem("INFO"));
-        mNavItems.add(new NavDrawerItem("MY CARS"));
-        mNavItems.add(new NavDrawerItem("MY FAVS"));
-        mNavItems.add(new NavDrawerItem("LOG OUT"));
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerList = (ListView) findViewById(R.id.navList);
+        mTitle = mDrawerTitle = getTitle();
+        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        //Getting reference to the DrawerLayout
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.navList);
 
-//        toolbar click issue
-//        toolbar.setNavigationIcon(R.drawable.ic_list_white);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-//
-//                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
-//                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-//                }else{
-//                    mDrawerLayout.openDrawer(Gravity.LEFT);
-//                }
+         /* Creating an ArrayAdapter to add items to mDrawerList */
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles);
+
+        /* Setting the adapter to mDrawerList */
+        mDrawerList.setAdapter(adapter);
+
+
+////        /* Getting reference to the ActionBarDrawerToggle */
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,R.string.drawer_open, R.string.drawer_close);
+//        mDrawerLayout.setDrawerListener(toggle);
+
+        //toolbar click issue
+        toolbar.setNavigationIcon(R.drawable.ic_list_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //click nav icon appear , then click disappear
+                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }else{
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
 //                // Set the adapter for the list view
 //                mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
-//
+
 //                // Set the list's click listener
 //                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                    @Override
@@ -112,10 +121,10 @@ public class Buy extends AppCompatActivity {
 //
 //                    }
 //                });
-//            }
-//        });
+            }
+        });
 
-        // data for car buy list
+        // get json data for car buy list
         new BuyJSONParse().execute();
 
     }
@@ -158,6 +167,7 @@ public class Buy extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            //show car list on gridview
             gridView = (GridView) findViewById(R.id.gridView);
             gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
 
