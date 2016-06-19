@@ -113,8 +113,6 @@ public class Buy extends AppCompatActivity {
                 }else{
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
-//                // Set the adapter for the list view
-//                mDrawerList.setAdapter(new DrawerListAdapter(Buy.this, mNavItems));
 
 //                // Set the list's click listener
 //                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
