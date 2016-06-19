@@ -1,5 +1,6 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
@@ -74,7 +75,6 @@ public class Buy extends AppCompatActivity {
         //tool bar setting
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle(null);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         //right show sort nav list array of string and icon
@@ -113,29 +113,25 @@ public class Buy extends AppCompatActivity {
                 }else{
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
+                 // Set the list's click listener
+                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                // Set the list's click listener
-//                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                        switch (pos){
-//                            case 0:
-//                                Intent i = new Intent(MainActivity.this,Aluminium.class);
-//                                startActivity(i);
-//                                break;
-//                            case 1:
-//                                Intent i2 = new Intent(MainActivity.this,Gold.class);
-//                                startActivity(i2);
-//                                break;
-//                            case 2:
-//                                Intent i3 = new Intent(MainActivity.this,Zinc.class);
-//                                startActivity(i3);
-//                                break;
-//                        }
-//
-//                    }
-//                });
+                        switch (position){
+                            case 0:
+                               Intent i = new Intent(Buy.this,Buy.class);
+                                getSupportActionBar().setTitle("BUY");
+                                startActivity(i);
+                                break;
+                            case 1:
+                                Intent i2 = new Intent(Buy.this,Sell.class);
+                                getSupportActionBar().setTitle("SELL");
+                                startActivity(i2);
+                                break;
+                        }
+                    }
+                });
             }
         });
 

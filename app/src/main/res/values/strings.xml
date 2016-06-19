@@ -41,5 +41,6 @@
         <item>@mipmap/ic_tending_up</item>
         <item>@mipmap/ic_tending_down</item>
     </integer-array>
+    <string name="title_activity_sell">Sell</string>
 
 </resources>
