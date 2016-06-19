@@ -13,6 +13,7 @@ import java.util.Objects;
 /**
  * Created by Jonelezhang on 6/13/16.
  */
+//buy left nav list adapter
 public class DrawerListAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<NavDrawerItem> mNavItems;

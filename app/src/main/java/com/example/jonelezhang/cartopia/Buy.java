@@ -40,9 +40,11 @@ public class Buy extends AppCompatActivity {
     private CharSequence mTitle;
     //right sort navigation
     private String[] sPlanetTitles;
+    private TypedArray img;
+
     private DrawerLayout sDrawerLayout;
     private ListView sDrawerList;
-    private TypedArray img;
+
     private ImageView sort_icon;
     //buy car list
     private GridView gridView;
@@ -75,22 +77,14 @@ public class Buy extends AppCompatActivity {
         //getSupportActionBar().setTitle(null);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        //right show sort nav list
-        img = getResources().obtainTypedArray(R.array.icon_sort_array);
+        //right show sort nav list array of string and icon
         sPlanetTitles = getResources().getStringArray(R.array.sort_array);
-        //Getting reference to the DrawerLayout
+        img = getResources().obtainTypedArray(R.array.icon_sort_array);
         sDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // set adapter for right sort nav list
+        SortListAdapter sort_adapter = new SortListAdapter(this, sPlanetTitles, img);
         sDrawerList = (ListView) findViewById(R.id.sortList);
-        //Creating an ArrayAdapter to add items to mDrawerList
-        ArrayAdapter<String> sadapter = new ArrayAdapter<String>(this,
-                R.layout.drawer_sort_list_item, sPlanetTitles);
-        //Setting the adapter to mDrawerList
-        sDrawerList.setAdapter(sadapter);
-
-//        sort_icon = (ImageView)findViewById(R.id.sort_icons);
-//        sort_icon.setBackgroundResource(img.getResourceId(1, -1));
-
-
+        sDrawerList.setAdapter(sort_adapter);
 
         //show list for left side nav list
         mTitle = mDrawerTitle = getTitle();
@@ -98,14 +92,11 @@ public class Buy extends AppCompatActivity {
         //Getting reference to the DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navList);
-
-         /* Creating an ArrayAdapter to add items to mDrawerList */
+        //Creating an ArrayAdapter to add items to mDrawerList
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mPlanetTitles);
-
-        /* Setting the adapter to mDrawerList */
+        // Setting the adapter to mDrawerList
         mDrawerList.setAdapter(adapter);
-
 
 ////        /* Getting reference to the ActionBarDrawerToggle */
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,R.string.drawer_open, R.string.drawer_close);

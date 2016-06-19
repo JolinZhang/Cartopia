@@ -21,6 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by Jonelezhang on 6/13/16.
  */
+//buy car list item adapter
 public class CarListAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<BuyCarItem> mCarItems;
