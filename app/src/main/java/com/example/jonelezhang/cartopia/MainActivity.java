@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     //log in function
     public void login() {
 
-//        startActivity(new Intent(MainActivity.this, Buy.class));
+        startActivity(new Intent(MainActivity.this, Buy.class));
 
         //get content of login username and password
         login_username = _login_username.getText().toString();
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //check username and passport with json file after validation
-        new Login_JSONParse().execute();
+//        new Login_JSONParse().execute();
         //login success operation
         _loginButton.setEnabled(false);
 

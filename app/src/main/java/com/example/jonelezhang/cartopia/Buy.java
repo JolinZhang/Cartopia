@@ -1,5 +1,6 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +16,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ import java.util.List;
 public class Buy extends AppCompatActivity {
     //tool bar
     private Toolbar toolbar;
-    //side navigation
+    //left side navigation
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -36,6 +38,12 @@ public class Buy extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    //right sort navigation
+    private String[] sPlanetTitles;
+    private DrawerLayout sDrawerLayout;
+    private ListView sDrawerList;
+    private TypedArray img;
+    private ImageView sort_icon;
     //buy car list
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
@@ -67,6 +75,24 @@ public class Buy extends AppCompatActivity {
         //getSupportActionBar().setTitle(null);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        //right show sort nav list
+        img = getResources().obtainTypedArray(R.array.icon_sort_array);
+        sPlanetTitles = getResources().getStringArray(R.array.sort_array);
+        //Getting reference to the DrawerLayout
+        sDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        sDrawerList = (ListView) findViewById(R.id.sortList);
+        //Creating an ArrayAdapter to add items to mDrawerList
+        ArrayAdapter<String> sadapter = new ArrayAdapter<String>(this,
+                R.layout.drawer_sort_list_item, sPlanetTitles);
+        //Setting the adapter to mDrawerList
+        sDrawerList.setAdapter(sadapter);
+
+//        sort_icon = (ImageView)findViewById(R.id.sort_icons);
+//        sort_icon.setBackgroundResource(img.getResourceId(1, -1));
+
+
+
+        //show list for left side nav list
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         //Getting reference to the DrawerLayout

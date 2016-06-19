@@ -18,4 +18,28 @@
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
 
+    <!--Right Sort Nav Drawer Menu-->
+    <string-array name="sort_array">
+        <item >POST DATE</item>
+        <item >POST DATE</item>
+        <item >PRICE</item>
+        <item >PRICE</item>
+        <item >MILEAGE</item>
+        <item >MILEAGE</item>
+        <item >YEAR</item>
+        <item >YEAR</item>
+    </string-array>
+
+    <!--Icon for sort Nav-->
+    <integer-array name="icon_sort_array">
+        <item>@mipmap/ic_tending_up</item>
+        <item>@mipmap/ic_tending_down</item>
+        <item>@mipmap/ic_tending_up</item>
+        <item>@mipmap/ic_tending_down</item>
+        <item>@mipmap/ic_tending_up</item>
+        <item>@mipmap/ic_tending_down</item>
+        <item>@mipmap/ic_tending_up</item>
+        <item>@mipmap/ic_tending_down</item>
+    </integer-array>
+
 </resources>
