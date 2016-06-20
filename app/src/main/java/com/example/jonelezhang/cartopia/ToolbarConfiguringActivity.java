@@ -18,8 +18,9 @@ import java.util.ArrayList;
  */
 //realize the same block of action bar and left side nav
 public class ToolbarConfiguringActivity extends AppCompatActivity {
-
+    //tool bar
     private Toolbar toolbar;
+    //left side navigation
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
