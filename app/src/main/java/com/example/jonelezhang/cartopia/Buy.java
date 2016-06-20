@@ -1,33 +1,20 @@
 package com.example.jonelezhang.cartopia;
 
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Buy extends ToolbarConfiguringActivity{
     //action bar title
@@ -35,14 +22,11 @@ public class Buy extends ToolbarConfiguringActivity{
     //right sort navigation
     private String[] sPlanetTitles;
     private TypedArray img;
-    private DrawerLayout sDrawerLayout;
     private ListView sDrawerList;
-    private ImageView sort_icon;
     //buy car list
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
     private BuyCarItem buyCar;
-    private CarListAdapter adapter;
     //JSON
     private String url;
     private JSONArray cars;
@@ -72,10 +56,8 @@ public class Buy extends ToolbarConfiguringActivity{
         //right show sort nav list array of string and icon
         sPlanetTitles = getResources().getStringArray(R.array.sort_array);
         img = getResources().obtainTypedArray(R.array.icon_sort_array);
-        sDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // set adapter for right sort nav list
         SortListAdapter sort_adapter = new SortListAdapter(this, sPlanetTitles, img);
-
         sDrawerList = (ListView) findViewById(R.id.sortList);
         sDrawerList.setAdapter(sort_adapter);
 
