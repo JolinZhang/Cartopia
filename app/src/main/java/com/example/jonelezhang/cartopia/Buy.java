@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Buy extends AppCompatActivity {
+public class Buy extends ToolbarConfiguringActivity {
     //tool bar
     private Toolbar toolbar;
     //left side navigation
@@ -67,14 +67,20 @@ public class Buy extends AppCompatActivity {
     private static final String TAG_CITY = "city";
     private static final String TAG_STATE = "state";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
 
+        configureToolbar();
+
+//        SideNavList sideNavList = new SideNavList();
+//        sideNavList.navSide(this.getWindow().getDecorView().findViewById(android.R.id.content));
+
         //tool bar setting
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         //right show sort nav list array of string and icon
@@ -83,57 +89,58 @@ public class Buy extends AppCompatActivity {
         sDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // set adapter for right sort nav list
         SortListAdapter sort_adapter = new SortListAdapter(this, sPlanetTitles, img);
+
         sDrawerList = (ListView) findViewById(R.id.sortList);
         sDrawerList.setAdapter(sort_adapter);
 
-        //show list for left side nav list
-        mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-        //Getting reference to the DrawerLayout
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navList);
-        //Creating an ArrayAdapter to add items to mDrawerList
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles);
-        // Setting the adapter to mDrawerList
-        mDrawerList.setAdapter(adapter);
-
+//        //show list for left side nav list
+//        mTitle = mDrawerTitle = getTitle();
+//        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+//        //Getting reference to the DrawerLayout
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerList = (ListView) findViewById(R.id.navList);
+//        //Creating an ArrayAdapter to add items to mDrawerList
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                R.layout.drawer_list_item, mPlanetTitles);
+//        // Setting the adapter to mDrawerList
+//        mDrawerList.setAdapter(adapter);
+//
 ////        /* Getting reference to the ActionBarDrawerToggle */
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,R.string.drawer_open, R.string.drawer_close);
 //        mDrawerLayout.setDrawerListener(toggle);
-
-        //toolbar click issue
-        toolbar.setNavigationIcon(R.drawable.ic_list_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //click nav icon appear , then click disappear
-                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                }else{
-                    mDrawerLayout.openDrawer(Gravity.LEFT);
-                }
-                 // Set the list's click listener
-                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        switch (position){
-                            case 0:
-                               Intent i = new Intent(Buy.this,Buy.class);
-                                getSupportActionBar().setTitle("BUY");
-                                startActivity(i);
-                                break;
-                            case 1:
-                                Intent i2 = new Intent(Buy.this,Sell.class);
-                                getSupportActionBar().setTitle("SELL");
-                                startActivity(i2);
-                                break;
-                        }
-                    }
-                });
-            }
-        });
+//
+//        //toolbar click issue
+//        toolbar.setNavigationIcon(R.drawable.ic_list_white);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //click nav icon appear , then click disappear
+//                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+//                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+//                }else{
+//                    mDrawerLayout.openDrawer(Gravity.LEFT);
+//                }
+//                 // Set the list's click listener
+//                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                        switch (position){
+//                            case 0:
+//                               Intent i = new Intent(Buy.this,Buy.class);
+//                                getSupportActionBar().setTitle("BUY");
+//                                startActivity(i);
+//                                break;
+//                            case 1:
+//                                Intent i2 = new Intent(Buy.this,Sell.class);
+//                                getSupportActionBar().setTitle("SELL");
+//                                startActivity(i2);
+//                                break;
+//                        }
+//                    }
+//                });
+//            }
+//        });
 
         // get json data for car buy list
         new BuyJSONParse().execute();
