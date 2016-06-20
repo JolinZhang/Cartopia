@@ -1,6 +1,5 @@
 package com.example.jonelezhang.cartopia;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +12,7 @@ public class Sell extends ToolbarConfiguringActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-
+        //initial action toolbar and set action bar title
         configureToolbar();
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("SELL");

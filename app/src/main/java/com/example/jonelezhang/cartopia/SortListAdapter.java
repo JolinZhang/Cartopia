@@ -17,7 +17,6 @@ public class SortListAdapter extends BaseAdapter {
     private Context mContext;
     private String[] Title;
     private TypedArray image;
-//    private static LayoutInflater inflater = null;
 
     public SortListAdapter(Context context, String[] text, TypedArray imageId){
         mContext = context;
