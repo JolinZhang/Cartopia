@@ -24,18 +24,15 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ArrayList<NavDrawerItem> mNavItems;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
 
     public void configureToolbar() {
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//        getSupportActionBar().setIcon(R.drawable.ic_list_white);
+//        getSupportActionBar().setHomeButtonEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
         //show list for left side nav list
-        mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         //Getting reference to the DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -45,10 +42,6 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
                 R.layout.drawer_list_item, mPlanetTitles);
         // Setting the adapter to mDrawerList
         mDrawerList.setAdapter(adapter);
-
-//        /* Getting reference to the ActionBarDrawerToggle */
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
 
         //toolbar click issue
         toolbar.setNavigationIcon(R.drawable.ic_list_white);
