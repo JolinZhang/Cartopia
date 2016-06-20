@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class Sell extends ToolbarConfiguringActivity {
+    private TextView toolbar_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,6 +15,8 @@ public class Sell extends ToolbarConfiguringActivity {
         setContentView(R.layout.activity_sell);
 
         configureToolbar();
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbar_title.setText("SELL");
     }
 
     @Override

@@ -1,17 +1,14 @@
 package com.example.jonelezhang.cartopia;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-
-import java.util.ArrayList;
 
 /**
  * Created by Jonelezhang on 6/19/16.
@@ -20,18 +17,18 @@ import java.util.ArrayList;
 public class ToolbarConfiguringActivity extends AppCompatActivity {
     //tool bar
     private Toolbar toolbar;
+    private ImageView toolbar_logo;
     //left side navigation
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 
     public void configureToolbar() {
+        //set toolbar and toolbar logo
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setIcon(R.drawable.ic_list_white);
-//        getSupportActionBar().setHomeButtonEnabled(false);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
+        toolbar_logo = (ImageView) findViewById(R.id.toolbar_logo);
+
         //show list for left side nav list
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         //Getting reference to the DrawerLayout
@@ -43,15 +40,14 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
         // Setting the adapter to mDrawerList
         mDrawerList.setAdapter(adapter);
 
-        //toolbar click issue
-        toolbar.setNavigationIcon(R.drawable.ic_list_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        //toolbar logo click issue
+        toolbar_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //click nav icon appear , then click disappear
-                if( mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
-                }else{
+                } else {
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
                 // Set the list's click listener
@@ -59,23 +55,20 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        switch (position){
+                        switch (position) {
                             case 0:
-                                Intent i = new Intent(getBaseContext(),Buy.class);
-                                getSupportActionBar().setTitle("BUY");
+                                Intent i = new Intent(getBaseContext(), Buy.class);
                                 startActivity(i);
                                 break;
                             case 1:
-                                Intent i2 = new Intent(getBaseContext(),Sell.class);
-                                getSupportActionBar().setTitle("SELL");
+                                Intent i2 = new Intent(getBaseContext(), Sell.class);
                                 startActivity(i2);
                                 break;
                         }
                     }
                 });
+
             }
         });
-
     }
-
 }

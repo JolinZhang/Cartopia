@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,13 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Buy extends ToolbarConfiguringActivity{
+    //action bar title
+    private TextView toolbar_title;
     //right sort navigation
     private String[] sPlanetTitles;
     private TypedArray img;
-
     private DrawerLayout sDrawerLayout;
     private ListView sDrawerList;
-
     private ImageView sort_icon;
     //buy car list
     private GridView gridView;
@@ -64,7 +65,9 @@ public class Buy extends ToolbarConfiguringActivity{
         setContentView(R.layout.activity_buy);
         //action bar and left side nav realization
         configureToolbar();
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //set action bar content
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbar_title.setText("BUY");
 
         //right show sort nav list array of string and icon
         sPlanetTitles = getResources().getStringArray(R.array.sort_array);
