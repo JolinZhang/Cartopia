@@ -4,11 +4,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Sell extends ToolbarConfiguringActivity {
+    //wiget on actionbar
     private TextView toolbar_title;
     private TextView toolbar_filter;
+    //initial spinner
+    private Spinner year;
+    private Spinner state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,23 @@ public class Sell extends ToolbarConfiguringActivity {
         toolbar_title.setText("SELL");
         toolbar_filter = (TextView) findViewById(R.id.toolbar_filter);
         toolbar_filter.setVisibility(View.INVISIBLE);
+
+        //set adapter for the year spinner
+        year = (Spinner) findViewById(R.id.sell_year);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter_year = ArrayAdapter.createFromResource(this,R.array.year_array,android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        year.setAdapter(adapter_year);
+
+        //set adapter for the year spinner
+        state = (Spinner) findViewById(R.id.sell_state);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter_state = ArrayAdapter.createFromResource(this,R.array.state_array,android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter_state.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        state.setAdapter(adapter_state);
+
     }
 
     @Override
