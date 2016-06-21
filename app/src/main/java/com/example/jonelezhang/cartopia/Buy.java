@@ -76,9 +76,6 @@ public class Buy extends ToolbarConfiguringActivity{
         });
 
 
-
-
-
         // get json data for car buy list
         new BuyJSONParse().execute();
 
