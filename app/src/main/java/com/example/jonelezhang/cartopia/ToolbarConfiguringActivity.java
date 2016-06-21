@@ -67,7 +67,6 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
     }

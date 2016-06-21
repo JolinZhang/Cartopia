@@ -1,11 +1,16 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,10 +24,14 @@ import java.util.ArrayList;
 public class Buy extends ToolbarConfiguringActivity{
     //action bar title
     private TextView toolbar_title;
+    private TextView toolbar_filter;
+    private DrawerLayout mDrawerLayout;
     //right sort navigation
     private String[] sPlanetTitles;
     private TypedArray img;
     private ListView sDrawerList;
+    //right sort list item select
+    private String sort_list_item = "";
     //buy car list
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
@@ -42,7 +51,6 @@ public class Buy extends ToolbarConfiguringActivity{
     private static final String TAG_CITY = "city";
     private static final String TAG_STATE = "state";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,27 @@ public class Buy extends ToolbarConfiguringActivity{
         //set action bar content
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("BUY");
+        //set animation of action tool bar filter
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbar_filter = (TextView) findViewById(R.id.toolbar_filter);
+        toolbar_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //click nav icon appear , then click disappear
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
+                }
+            }
+        });
+
+
+
+
+
+        // get json data for car buy list
+        new BuyJSONParse().execute();
 
         //right show sort nav list array of string and icon
         sPlanetTitles = getResources().getStringArray(R.array.sort_array);
@@ -61,17 +90,53 @@ public class Buy extends ToolbarConfiguringActivity{
         sDrawerList = (ListView) findViewById(R.id.sortList);
         sDrawerList.setAdapter(sort_adapter);
 
-        // get json data for car buy list
-        new BuyJSONParse().execute();
+        // Set the list's click listener
+        sDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                switch (position) {
+                    case 0:
+                        sort_list_item = "0";
+                        break;
+                    case 1:
+                        sort_list_item = "1";
+                        break;
+                    case 2:
+                        sort_list_item = "2";
+                        break;
+                    case 3:
+                        sort_list_item = "3";
+                        break;
+                    case 4:
+                        sort_list_item = "4";
+                        break;
+                    case 5:
+                        sort_list_item = "5";
+                        break;
+                    case 6:
+                        sort_list_item = "6";
+                        break;
+                    case 7:
+                        sort_list_item = "7";
+                        break;
+                }
+                new BuyJSONParse().execute();
+            }
+        });
     }
     //use AsyncTask to run JsonParse on a different thread
     private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {
         @Override
         protected JSONArray doInBackground(String... args) {
-            url = "http://cartopia.club/api/cars";
             JsonParser jParser = new JsonParser();
             // Getting JSON from URL
+            if(sort_list_item.length() == 0){
+                //url for right sort list
+                url = "http://cartopia.club/api/cars";
+            }else{
+                url = "http://cartopia.club/api/sort?sort="+sort_list_item;
+            }
             strUrl = jParser.getJsonFromUrl(url);
             // Getting JSON from URL
             try {
