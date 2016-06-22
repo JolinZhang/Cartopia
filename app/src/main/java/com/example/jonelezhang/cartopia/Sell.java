@@ -1,5 +1,7 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +18,7 @@ public class Sell extends ToolbarConfiguringActivity {
     //initial spinner
     private Spinner year;
     private Spinner state;
-    //
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

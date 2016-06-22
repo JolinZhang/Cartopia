@@ -1,5 +1,7 @@
 package com.example.jonelezhang.cartopia;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -63,6 +65,15 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
                             case 1:
                                 Intent i2 = new Intent(getBaseContext(), Sell.class);
                                 startActivity(i2);
+                                break;
+                            case 5:
+                                SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+//                                String id = sharedpreferences.getString("Current_User","");
+                                editor.clear();
+                                editor.commit();
+                                Intent i5 = new Intent(getBaseContext(), MainActivity.class);
+                                startActivity(i5);
                                 break;
                         }
                     }

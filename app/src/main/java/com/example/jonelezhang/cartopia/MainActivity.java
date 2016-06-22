@@ -2,7 +2,9 @@ package com.example.jonelezhang.cartopia;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText _signup_password;
     private EditText _signup_confirm_password;
     private Button _signup_btn;
+    //SharedPreferences sharedpreferences for user id;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Current_User = "Current_User";
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,12 +162,15 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
+        //initial shared shared preferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
     }
 
     //log in function
     public void login() {
 
-        startActivity(new Intent(MainActivity.this, Buy.class));
+//        startActivity(new Intent(MainActivity.this, Buy.class));
 
         //get content of login username and password
         login_username = _login_username.getText().toString();
@@ -173,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //check username and passport with json file after validation
-//        new Login_JSONParse().execute();
+        new Login_JSONParse().execute();
         //login success operation
         _loginButton.setEnabled(false);
 
@@ -200,7 +209,11 @@ public class MainActivity extends AppCompatActivity {
                 // Storing  JSON item in a Variable
                 String success = json.getString(TAG_SUCCESS);
                 if(success.equals("1")){
+                    // put current user's id in shared preferences
                     String id = json.getString(TAG_ID);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(Current_User, id);
+                    editor.commit();
                     startActivity(new Intent(MainActivity.this, Buy.class));
                 }else{
                     onLoginFailed();
