@@ -1,23 +1,51 @@
 package com.example.jonelezhang.cartopia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class Sell extends ToolbarConfiguringActivity {
-    //wiget on actionbar
+    //widget on actionbar
     private TextView toolbar_title;
     private TextView toolbar_filter;
-    //initial spinner
+    //initial spinner and
     private Spinner year;
     private Spinner state;
+    private EditText make;
+    private EditText model;
+    private  EditText city;
+    private EditText mileage;
+    private EditText price;
+    private EditText contact;
+    private EditText note;
+    private Button  choose_photo;
+    //set string value for each widget
+    private  String _year;
+    private String _make;
+    private String _model;
+    private String _mileage;
+    private String _price;
+    private String _state;
+    private String _city;
+    private String _contact;
+    private String _note;
 
 
     @Override
@@ -43,7 +71,7 @@ public class Sell extends ToolbarConfiguringActivity {
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                _year = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -63,7 +91,7 @@ public class Sell extends ToolbarConfiguringActivity {
         state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                _state = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -71,9 +99,51 @@ public class Sell extends ToolbarConfiguringActivity {
 
             }
         });
+        //get string value of all editText except year state picture
+        make = (EditText) findViewById(R.id.sell_make);
+        model = (EditText) findViewById(R.id.sell_model);
+        mileage = (EditText) findViewById(R.id.sell_mileage);
+        price = (EditText) findViewById(R.id.sell_price);
+        city = (EditText) findViewById(R.id.sell_city);
+        contact = (EditText) findViewById(R.id.sell_contact);
+        note = (EditText) findViewById(R.id.sell_note);
+
+        _make = make.getText().toString();
+        _model = model.getText().toString();
+        _mileage = mileage.getText().toString();
+        _price = price.getText().toString();
+        _city = city.getText().toString();
+        _contact = contact.getText().toString();
+        _note = note.getText().toString();
+
+        //get picture name into string  when click choose picture button
+        choose_photo = (Button) findViewById(R.id.sell_choose_photo);
+        choose_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,1);
+            }
+        });
+
+        }
+    //get file path from the gallery
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+//        if(resultCode == RESULT_OK && requestCode == 1){
+//            Uri selectedImage = data.getData();
+//            //addPhoto.setImageURI(selectedImage);
+//            String[] filePath = {MediaStore.Images.Media.DATA};
+//            Cursor c = getContentResolver().query(selectedImage, filePath,null,null,null);
+//            c.moveToFirst();
+//            int columnIndex = c.getColumnIndex(filePath[0]);
+//            String picturePath=c.getString(columnIndex);
+//            c.close();
+//            File imgFile = new  File(picturePath);
+//        }
+//    }
 
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
