@@ -39,7 +39,9 @@ public class Sell extends ToolbarConfiguringActivity {
     private TextView toolbar_filter;
     //initial spinner and
     private Spinner year;
+    private EditText year_error;
     private Spinner state;
+    private EditText state_error;
     private EditText make;
     private EditText model;
     private  EditText city;
@@ -124,6 +126,8 @@ public class Sell extends ToolbarConfiguringActivity {
         city = (EditText) findViewById(R.id.sell_city);
         contact = (EditText) findViewById(R.id.sell_contact);
         note = (EditText) findViewById(R.id.sell_note);
+        year_error =(EditText) findViewById(R.id.sell_year_error);
+        state_error = (EditText) findViewById(R.id.sell_state_error);
 
 
         //get user id string
@@ -162,8 +166,6 @@ public class Sell extends ToolbarConfiguringActivity {
                 }
             }
         });
-
-
 
         }
     //use AsyncTask to run JsonParse on a different thread to realize submit post method
@@ -253,8 +255,8 @@ public class Sell extends ToolbarConfiguringActivity {
     public boolean sell_validate(String vaYear, String vaMake, String vaModel, String vaMileage, String vaPrice,
                                  String vaCity, String vaState, String vaContact ){
         boolean valid = true;
-        if(vaYear.isEmpty()){
-            Toast.makeText(getBaseContext(), " year can not be empty", Toast.LENGTH_SHORT).show();
+        if (vaYear.equals("Year")){
+            year_error.setError("choose year");
             valid = false;
         }
         if(vaMake.isEmpty()){
@@ -274,15 +276,16 @@ public class Sell extends ToolbarConfiguringActivity {
         if(vaPrice.isEmpty()){
             price.setError("can not be empty");
             valid = false;
-
         }
         if(vaCity.isEmpty()){
             city.setError("can not be empty");
             valid = false;
-
+        }else if(!vaCity.matches("[a-zA-Z ]+")){
+            city.setError("only allow alphabets");
+            valid = false;
         }
-        if(vaState.isEmpty()){
-            Toast.makeText(getBaseContext(), " state can not be empty", Toast.LENGTH_SHORT).show();
+        if (vaState.equals("State")){
+            state_error.setError("choose state");
             valid = false;
         }
         if(vaContact.isEmpty()){
