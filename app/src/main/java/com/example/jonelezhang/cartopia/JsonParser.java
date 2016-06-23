@@ -31,21 +31,21 @@ public class JsonParser {
 
     }
     public String getJsonFromUrl(String url){
-    // Make Http request
-    try{
-        // defaultHttpClient
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(url);
-        HttpResponse response = httpClient.execute(httpGet);
-        HttpEntity httpEntity = response.getEntity();
-        is = httpEntity.getContent();
-    } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-    } catch (ClientProtocolException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+        // Make Http request
+        try{
+            // defaultHttpClient
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+            is = httpEntity.getContent();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     is, "iso-8859-1"), 8);

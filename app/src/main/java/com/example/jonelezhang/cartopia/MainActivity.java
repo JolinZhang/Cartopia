@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             _signup_email.setError(null);
         }
-       // password valid
+        // password valid
         if(signup_password.isEmpty()){
             _signup_password.setError("can not be empty");
             valid = false;
