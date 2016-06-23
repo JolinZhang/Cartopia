@@ -62,7 +62,7 @@ public class Sell extends ToolbarConfiguringActivity {
     private String user_id;
     //initial sharedPreference to set Token
     private SharedPreferences mPreferences;
-    private static final String sell_url = "http://localhost:3000/api/cars";
+    private static final String sell_url = "http://cartopia.club/api/cars";
 
 
     @Override
@@ -201,8 +201,8 @@ public class Sell extends ToolbarConfiguringActivity {
                     post.setEntity(se);
 
                     // setup the request headers
-//                    post.setHeader("Accept", "application/json");
-//                    post.setHeader("Content-Type", "application/json");
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-Type", "application/json");
 
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     response = client.execute(post, responseHandler);
