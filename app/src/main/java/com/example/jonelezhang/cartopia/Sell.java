@@ -181,8 +181,8 @@ public class Sell extends ToolbarConfiguringActivity {
                 try {
                     // setup the returned values in case
                     // something goes wrong
-                    json.put("success", false);
-                    json.put("info", "Something went wrong. Retry!");
+//                    json.put("success", "create success");
+//                    json.put("info", "Something went wrong. Retry!");
 
                     // add the car's info into userObj
                     userObj.put("year", Integer.parseInt(_year));
@@ -207,7 +207,7 @@ public class Sell extends ToolbarConfiguringActivity {
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     response = client.execute(post, responseHandler);
                     json = new JSONObject(response);
-
+                    //change the value of success from false to true;
                 }catch(IOException e){
                     e.printStackTrace();
 
@@ -222,20 +222,23 @@ public class Sell extends ToolbarConfiguringActivity {
         @Override
         protected  void onPostExecute(JSONObject json){
             try {
-                if (json.getBoolean("success")) {
+                if (json != null ) {
                     // everything is ok
-                    SharedPreferences.Editor editor = mPreferences.edit();
+//                    SharedPreferences.Editor editor = mPreferences.edit();
                     // save the returned auth_token into
                     // the SharedPreferences
-                    editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
-                    editor.commit();
+//                    editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
+//                    editor.commit();
 
                     // launch the HomeActivity and close this one
                     Intent intent = new Intent(getApplicationContext(), Buy.class);
                     startActivity(intent);
                     finish();
+
+                    Toast.makeText(getBaseContext(), "create success", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getBaseContext(), "Something went wrong. Retry!", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(getBaseContext(), json.getString("info"), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 // something went wrong: show a Toast
                 // with the exception message
@@ -246,7 +249,6 @@ public class Sell extends ToolbarConfiguringActivity {
         }
 
     }
-
 
     public boolean sell_validate(String vaYear, String vaMake, String vaModel, String vaMileage, String vaPrice,
                                  String vaCity, String vaState, String vaContact ){
