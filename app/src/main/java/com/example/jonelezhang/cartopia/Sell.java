@@ -40,7 +40,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Sell extends ToolbarConfiguringActivity {
     //widget on actionbar
@@ -77,10 +76,6 @@ public class Sell extends ToolbarConfiguringActivity {
     //picture path
     private TextView photoPath;
     private String picturePath = "";
-    private static final String photo_url = "";
-    private static final String photo_name = "";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +181,7 @@ public class Sell extends ToolbarConfiguringActivity {
         });
 
         }
-    //result get file path from the gallery
+    //click choose photo issue, get result file path from the gallery
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == 1){
@@ -202,9 +197,7 @@ public class Sell extends ToolbarConfiguringActivity {
             c.close();
             //show pciture path on the text view
             photoPath = (TextView) findViewById(R.id.photo_path);
-
             photoPath.setText(picturePath);
-            //Bitmap photo = (Bitmap) data.getExtras().get("data");
         }
     }
 
@@ -295,36 +288,7 @@ public class Sell extends ToolbarConfiguringActivity {
         }
 
     }
-
-    //use AsyncTask to run post api for uploading image
-//    public class uploadImageToServer extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            //set the get image into bitmap
-//            Bitmap photo = BitmapFactory.decodeFile(params[0]);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//            byte[] byteImage_photo = baos.toByteArray();
-//            //generate base64 string of image
-//            String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
-//            ArrayList<NameValuePair> nameValuePairs = new ArrayList < NameValuePair > ();
-//            nameValuePairs.add(new BasicNameValuePair("base64", encodedImage));
-////            nameValuePairs.add(new BasicNameValuePair("ImageName", System.currentTimeMillis() + ".jpg"));
-//            try {
-//                // defaultHttpClient
-//                DefaultHttpClient client = new DefaultHttpClient();
-//                HttpPost post = new HttpPost(photo_url);
-//                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//                HttpResponse response = client.execute(post);
-//                String st = EntityUtils.toString(response.getEntity());
-//            }catch(Exception e){
-//            }
-//            return null;
-//        }
-//    }
-
-
+   // sell car validation
     public boolean sell_validate(String vaYear, String vaMake, String vaModel, String vaMileage, String vaPrice,
                                  String vaCity, String vaState, String vaContact ){
         boolean valid = true;
@@ -368,12 +332,6 @@ public class Sell extends ToolbarConfiguringActivity {
         }
         return valid;
     }
-
-
-
-
-
-
 
 
     @Override
