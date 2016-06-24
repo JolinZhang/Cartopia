@@ -174,8 +174,7 @@ public class Sell extends ToolbarConfiguringActivity {
 
                     //execute post json
                     new Sell_JSONParse().execute(picturePath,sell_url);
-                    // Upload image to server
-//                    new uploadImageToServer().execute(picturePath);
+                    startActivity(new Intent(Sell.this, Buy.class));
                 }
             }
         });
