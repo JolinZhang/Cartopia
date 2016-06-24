@@ -76,8 +76,9 @@ public class Sell extends ToolbarConfiguringActivity {
     private static final String sell_url = "http://cartopia.club/api/cars";
     //picture path
     private TextView photoPath;
-    private String picturePath;
+    private String picturePath = "";
     private static final String photo_url = "";
+    private static final String photo_name = "";
 
 
 
@@ -177,9 +178,9 @@ public class Sell extends ToolbarConfiguringActivity {
                 if(sell_validate(_year,_make,_model,_mileage,_price,_city, _state,_contact)) {
 
                     //execute post json
-                    new Sell_JSONParse().execute(sell_url);
+                    new Sell_JSONParse().execute(picturePath,sell_url);
                     // Upload image to server
-                    new uploadImageToServer().execute(picturePath);
+//                    new uploadImageToServer().execute(picturePath);
                 }
             }
         });
@@ -190,7 +191,6 @@ public class Sell extends ToolbarConfiguringActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == 1){
             Uri selectedImage = data.getData();
-            Bitmap bitma = (Bitmap) data.getExtras().get("data");
             String[] filePath = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
             c.moveToFirst();
@@ -202,35 +202,9 @@ public class Sell extends ToolbarConfiguringActivity {
             c.close();
             //show pciture path on the text view
             photoPath = (TextView) findViewById(R.id.photo_path);
+
             photoPath.setText(picturePath);
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
-        }
-    }
-    //use AsyncTask to run post api for uploading image
-    public class uploadImageToServer extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            //set the get image into bitmap
-            Bitmap photo = BitmapFactory.decodeFile(params[0]);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] byteImage_photo = baos.toByteArray();
-            //generate base64 string of image
-            String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
-            ArrayList<NameValuePair> nameValuePairs = new ArrayList < NameValuePair > ();
-            nameValuePairs.add(new BasicNameValuePair("base64", encodedImage));
-            nameValuePairs.add(new BasicNameValuePair("ImageName", System.currentTimeMillis() + ".jpg"));
-            try {
-                // defaultHttpClient
-                DefaultHttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost(photo_url);
-                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = client.execute(post);
-                String st = EntityUtils.toString(response.getEntity());
-            }catch(Exception e){
-            }
-            return null;
         }
     }
 
@@ -239,19 +213,23 @@ public class Sell extends ToolbarConfiguringActivity {
 
         @Override
         protected JSONObject doInBackground(String... urls) {
+            //set the get image into bitmap
+            File imgFile = new  File(urls[0]);
+            Bitmap photo = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+            byte[] byteImage_photo = baos.toByteArray();
+            //generate base64 string of image
+            String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+
             // defaultHttpClient
             DefaultHttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(urls[0]);
+            HttpPost post = new HttpPost(urls[1]);
             JSONObject userObj = new JSONObject();
             String response = null;
             JSONObject json = new JSONObject();
             try {
                 try {
-                    // setup the returned values in case
-                    // something goes wrong
-//                    json.put("success", "create success");
-//                    json.put("info", "Something went wrong. Retry!");
-
                     // add the car's info into userObj
                     userObj.put("year", Integer.parseInt(_year));
                     userObj.put("make", _make);
@@ -262,9 +240,10 @@ public class Sell extends ToolbarConfiguringActivity {
                     userObj.put("city", _city);
                     userObj.put("state", _state);
                     userObj.put("notes", _notes);
-                    userObj.put("picture", "default.jpg");
+                    userObj.put("picture", picturePath);
                     userObj.put("issold", false);
                     userObj.put("user_id", Integer.parseInt(user_id));
+                    userObj.put("picture",encodedImage);
                     StringEntity se = new StringEntity(userObj.toString());
                     post.setEntity(se);
 
@@ -278,7 +257,6 @@ public class Sell extends ToolbarConfiguringActivity {
                     //change the value of success from false to true;
                 }catch(IOException e){
                     e.printStackTrace();
-
                 }
            }catch (JSONException e) {
                 e.printStackTrace();
@@ -317,6 +295,35 @@ public class Sell extends ToolbarConfiguringActivity {
         }
 
     }
+
+    //use AsyncTask to run post api for uploading image
+//    public class uploadImageToServer extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            //set the get image into bitmap
+//            Bitmap photo = BitmapFactory.decodeFile(params[0]);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//            byte[] byteImage_photo = baos.toByteArray();
+//            //generate base64 string of image
+//            String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+//            ArrayList<NameValuePair> nameValuePairs = new ArrayList < NameValuePair > ();
+//            nameValuePairs.add(new BasicNameValuePair("base64", encodedImage));
+////            nameValuePairs.add(new BasicNameValuePair("ImageName", System.currentTimeMillis() + ".jpg"));
+//            try {
+//                // defaultHttpClient
+//                DefaultHttpClient client = new DefaultHttpClient();
+//                HttpPost post = new HttpPost(photo_url);
+//                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//                HttpResponse response = client.execute(post);
+//                String st = EntityUtils.toString(response.getEntity());
+//            }catch(Exception e){
+//            }
+//            return null;
+//        }
+//    }
+
 
     public boolean sell_validate(String vaYear, String vaMake, String vaModel, String vaMileage, String vaPrice,
                                  String vaCity, String vaState, String vaContact ){
