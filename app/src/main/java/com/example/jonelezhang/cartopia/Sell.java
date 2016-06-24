@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,17 +23,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Sell extends ToolbarConfiguringActivity {
     //widget on actionbar
@@ -65,6 +74,11 @@ public class Sell extends ToolbarConfiguringActivity {
     //initial sharedPreference to set Token
     private SharedPreferences mPreferences;
     private static final String sell_url = "http://cartopia.club/api/cars";
+    //picture path
+    private TextView photoPath;
+    private String picturePath;
+    private static final String photo_url = "";
+
 
 
     @Override
@@ -161,13 +175,65 @@ public class Sell extends ToolbarConfiguringActivity {
 
                 //check validation of the value in sell table
                 if(sell_validate(_year,_make,_model,_mileage,_price,_city, _state,_contact)) {
+
                     //execute post json
                     new Sell_JSONParse().execute(sell_url);
+                    // Upload image to server
+                    new uploadImageToServer().execute(picturePath);
                 }
             }
         });
 
         }
+    //result get file path from the gallery
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == 1){
+            Uri selectedImage = data.getData();
+            Bitmap bitma = (Bitmap) data.getExtras().get("data");
+            String[] filePath = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePath[0]);
+            //get photo path
+            picturePath=c.getString(columnIndex);
+            //get photo extension
+            String file_extn = picturePath.substring(picturePath.lastIndexOf(".")+1);
+            c.close();
+            //show pciture path on the text view
+            photoPath = (TextView) findViewById(R.id.photo_path);
+            photoPath.setText(picturePath);
+            //Bitmap photo = (Bitmap) data.getExtras().get("data");
+        }
+    }
+    //use AsyncTask to run post api for uploading image
+    public class uploadImageToServer extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            //set the get image into bitmap
+            Bitmap photo = BitmapFactory.decodeFile(params[0]);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] byteImage_photo = baos.toByteArray();
+            //generate base64 string of image
+            String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList < NameValuePair > ();
+            nameValuePairs.add(new BasicNameValuePair("base64", encodedImage));
+            nameValuePairs.add(new BasicNameValuePair("ImageName", System.currentTimeMillis() + ".jpg"));
+            try {
+                // defaultHttpClient
+                DefaultHttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost(photo_url);
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = client.execute(post);
+                String st = EntityUtils.toString(response.getEntity());
+            }catch(Exception e){
+            }
+            return null;
+        }
+    }
+
     //use AsyncTask to run JsonParse on a different thread to realize submit post method
     private class Sell_JSONParse extends AsyncTask<String, String, JSONObject> {
 
@@ -224,7 +290,7 @@ public class Sell extends ToolbarConfiguringActivity {
         @Override
         protected  void onPostExecute(JSONObject json){
             try {
-                if (json != null ) {
+                if (json != null) {
                     // everything is ok
 //                    SharedPreferences.Editor editor = mPreferences.edit();
                     // save the returned auth_token into
@@ -301,21 +367,7 @@ public class Sell extends ToolbarConfiguringActivity {
 
 
 
-    //get file path from the gallery
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-//        if(resultCode == RESULT_OK && requestCode == 1){
-//            Uri selectedImage = data.getData();
-//            //addPhoto.setImageURI(selectedImage);
-//            String[] filePath = {MediaStore.Images.Media.DATA};
-//            Cursor c = getContentResolver().query(selectedImage, filePath,null,null,null);
-//            c.moveToFirst();
-//            int columnIndex = c.getColumnIndex(filePath[0]);
-//            String picturePath=c.getString(columnIndex);
-//            c.close();
-//            File imgFile = new  File(picturePath);
-//        }
-//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
