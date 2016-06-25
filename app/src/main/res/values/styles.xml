@@ -10,22 +10,36 @@
     <style name="BuyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
+    <!--style for buy card list price -->
     <style name="BuyListPrice">
         <item name="android:textColor">@color/list_item_title</item>
         <item name="android:fontFamily">sans|serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">25dp</item>
     </style>
+    <!--style for buy card list mileage-->
     <style name="BuyListMileage" >
         <item name="android:textColor">@color/list_item_title</item>
         <item name="android:fontFamily">sans|serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18dp</item>
     </style>
+    <!--style for buy card list year, make, model-->
     <style name="BuyListYearMakeModel">
         <item name="android:textColor">@color/list_item_title</item>
         <item name="android:fontFamily">sans|serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">15dp</item>
+    </style>
+    <!--style for info custom tab-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/list_background_pressed</item>
+        <item name="tabBackground">@color/ColorPrimary</item>
+        <item name="tabSelectedTextColor">@color/list_background_pressed</item>
+    </style>
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/TextColorPrimary</item>
+        <item name="textAllCaps">true</item>
     </style>
 </resources>
