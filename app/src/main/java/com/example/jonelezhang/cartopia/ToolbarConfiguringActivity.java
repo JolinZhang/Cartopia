@@ -63,8 +63,20 @@ public class ToolbarConfiguringActivity extends AppCompatActivity {
                                 startActivity(i);
                                 break;
                             case 1:
-                                Intent i2 = new Intent(getBaseContext(), Sell.class);
+                                Intent i1 = new Intent(getBaseContext(), Sell.class);
+                                startActivity(i1);
+                                break;
+                            case 2:
+                                Intent i2 = new Intent(getBaseContext(), Info.class);
                                 startActivity(i2);
+                                break;
+                            case 3:
+                                Intent i3 = new Intent(getBaseContext(), MyCars.class);
+                                startActivity(i3);
+                                break;
+                            case 4:
+                                Intent i4 = new Intent(getBaseContext(), MyFavs.class);
+                                startActivity(i4);
                                 break;
                             case 5:
                                 SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);

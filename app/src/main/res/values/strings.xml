@@ -137,4 +137,9 @@
         <item>WI</item>
         <item>WY</item>
     </string-array>
+    <string name="title_activity_info">Info</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_my_cars">MyCars</string>
+    <string name="title_activity_my_favs">MyFavs</string>
 </resources>
