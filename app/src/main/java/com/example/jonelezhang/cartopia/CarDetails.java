@@ -13,12 +13,10 @@ public class CarDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
-
-
+        //get car id value from intent
         final Intent intent = getIntent();
         String temp1 = intent.getStringExtra("id");
 
-        Toast.makeText(getBaseContext(), temp1, Toast.LENGTH_SHORT).show();
 
 
 

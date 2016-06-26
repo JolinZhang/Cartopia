@@ -8,6 +8,187 @@
         android:id="@+id/toolbar"
         layout="@layout/buy_tool_bar" />
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/toolbar"
+        android:background="#FFFFFF">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:id="@+id/carDetails_image"
+        android:layout_margin="10dp" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#979797"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                style="@style/BuyListPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_price"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+            <TextView
+                style="@style/BuyListMileage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_mileage"
+                android:layout_toRightOf="@id/carDetails_price"
+                android:layout_centerVertical="true" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_favorite"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                style="@style/BuyListYearMakeModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_year"
+                android:layout_marginLeft="20dp"/>
+            <TextView
+                style="@style/BuyListYearMakeModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_model" />
+            <TextView
+                style="@style/BuyListYearMakeModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_make" />
+        </LinearLayout>
+       <!--car location-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_location"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_city" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_state" />
+        </LinearLayout>
+        <!--uer name-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_identity"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_user" />
+            </LinearLayout>
+        <!--contact-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_call"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_contact" />
+            </LinearLayout>
+        <!--calender-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_today"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_createAt" />
+            </LinearLayout>
+        <!--note-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_note"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carDetails_note" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
 
 
 </RelativeLayout>

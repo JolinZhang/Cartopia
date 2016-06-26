@@ -177,15 +177,11 @@ public class Buy extends ToolbarConfiguringActivity{
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // pass car id to CarDetails activity
                     ee = carItems.get(position);
                     Intent i = new Intent(Buy.this, CarDetails.class);
-                    String s = ee.getId()+"";
-                    String a = ee.getMake()+"";
-                    i.putExtra("id", s);
-                    i.putExtra("make",a);
-
+                    i.putExtra("id", ee.getId()+"");
                     startActivity(i);
-
                 }
             });
 
