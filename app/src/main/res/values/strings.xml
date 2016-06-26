@@ -142,4 +142,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_my_cars">MyCars</string>
     <string name="title_activity_my_favs">MyFavs</string>
+    <string name="title_activity_car_details">CarDetails</string>
 </resources>

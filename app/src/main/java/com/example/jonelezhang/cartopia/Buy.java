@@ -36,12 +36,14 @@ public class Buy extends ToolbarConfiguringActivity{
     private GridView gridView;
     private ArrayList<BuyCarItem> carItems;
     private BuyCarItem buyCar;
+    private BuyCarItem ee;
     //JSON
     private String url;
     private JSONArray cars;
     private String strUrl;
     static JSONArray obj = null;
     //JSON Node Names
+    private static final String TAG_ID = "id";
     private static final String TAG_PICTURE = "picture";
     private static final String TAG_YEAR = "year";
     private static final String TAG_MAKE = "make";
@@ -145,13 +147,15 @@ public class Buy extends ToolbarConfiguringActivity{
         }
         @Override
         protected void onPostExecute(JSONArray json) {
+            //get car id value
             try {
-                // Storing  JSON item in a Variable
+                // Storing  JSON item in a Variable, define an ArrayList carItems to store all cars' info.
                 carItems = new ArrayList<>();
                 if(json != null){
                     for(int i=0; i<json.length(); i++) {
                         JSONObject finalObject = json.getJSONObject(i);
                         buyCar = new BuyCarItem();
+                        buyCar.setId(Integer.parseInt(finalObject.getString(TAG_ID)));
                         buyCar.setImageResourceId(finalObject.getString(TAG_PICTURE));
                         buyCar.setPrice(Integer.parseInt(finalObject.getString(TAG_PRICE)));
                         buyCar.setMileage(Integer.parseInt(finalObject.getString(TAG_MILEAGE)));
@@ -169,6 +173,21 @@ public class Buy extends ToolbarConfiguringActivity{
             //show car list on gridview
             gridView = (GridView) findViewById(R.id.gridView);
             gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
+            //click item to transparent car id.
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ee = carItems.get(position);
+                    Intent i = new Intent(Buy.this, CarDetails.class);
+                    String s = ee.getId()+"";
+                    String a = ee.getMake()+"";
+                    i.putExtra("id", s);
+                    i.putExtra("make",a);
+
+                    startActivity(i);
+
+                }
+            });
 
         }
     }

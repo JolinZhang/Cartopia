@@ -48,6 +48,11 @@
         <activity
             android:name=".MyFavs"
             android:label="@string/title_activity_my_favs"
+            android:theme="@style/BuyTheme" >
+        </activity>
+        <activity
+            android:name=".CarDetails"
+            android:label="@string/title_activity_car_details"
             android:theme="@style/BuyTheme">
         </activity>
     </application>
