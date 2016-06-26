@@ -6,17 +6,20 @@ package com.example.jonelezhang.cartopia;
 public class BuyCarItem {
     private int id;
     private String imageResourcesId;
-    private int  price;
-    private int mileage;
     private int year;
     private String make;
     private String model;
+    private int  price;
+    private int mileage;
     private String city;
     private String state;
-//    private String contact;
-//    private String  notes;
-//    private boolean issold;
+    private String contact;
+    private String  notes;
+    private boolean issold;
+    private String createdAt;
+    private String updatedAt;
 
+   //constructor
     public BuyCarItem(){
     }
     //set methods
@@ -47,6 +50,10 @@ public class BuyCarItem {
     public void setState(String state){
         this.state = state;
     }
+    public void setContact(String contact) {this.contact = contact;}
+    public void setNotes(String notes){this.notes = notes;}
+    public void setCreatedAt(String createdAt){this.createdAt = createdAt;}
+
     // get methods
     public int   getId(){return id;}
     public String getImageResourceId(){
@@ -59,5 +66,9 @@ public class BuyCarItem {
     public String getModel(){return model;}
     public String getCity(){return city;}
     public String getState(){return state;}
+    public String getContact(){return contact;}
+    public String getNotes(){return notes;}
+    public String getCreatedAt(){return createdAt;}
+
 }
 
