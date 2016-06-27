@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,7 +54,18 @@ public class CarDetails extends AppCompatActivity {
     private TextView carDetailsNotes;
     private TextView carDetailsCreatedAt;
     private  ImageView carDetailsImage;
-
+    //comment JSON
+    private String commentUrl;
+    private String commentStrUrl;
+    static JSONArray commentObj = null;
+    private CarDetailsCommentsItem commentCar;
+    private ArrayList<CarDetailsCommentsItem> commentCars;
+    //comment JSON Node Names
+    private static final String TAG_CID = "id";
+    private static final String TAG_CCONTENT = "content";
+    private static final String TAG_CUSER_ID = "user_id";
+    //widgets of view
+    private GridView commentGridView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +79,52 @@ public class CarDetails extends AppCompatActivity {
         url = "http://cartopia.club/api/cars?id="+car_id;
         // get json data for car buy list
         new CarDetailsJSONParse().execute(url);
+        //get json data from comment for car details
+        commentUrl ="http://cartopia.club/api/comments?car_id="+car_id;
+        new CarDetailsCommentJSONParse().execute(commentUrl);
+
     }
+    //use AsyncTask to run JsonParse on a different thread
+    private class CarDetailsCommentJSONParse extends AsyncTask<String,String,JSONArray>{
 
+        @Override
+        protected JSONArray doInBackground(String... params) {
+            JsonParser jParser  = new JsonParser();
+            commentStrUrl = jParser.getJsonFromUrl(params[0]);
+            // Getting JSON from URL
+            try {
+                commentObj = new JSONArray(commentStrUrl);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return commentObj;
+        }
+        @Override
+        protected  void onPostExecute(JSONArray json){
+            //get car id value
+            try {
+                // Storing  JSON item in a Variable, define an ArrayList carItems to store all cars' info.
+                commentCars = new ArrayList<>();
+                if(json != null){
+                    for(int i=0; i<json.length(); i++) {
+                        JSONObject finalObject = json.getJSONObject(i);
+                        commentCar = new CarDetailsCommentsItem();
+                        commentCar.setId(Integer.parseInt(finalObject.getString(TAG_CID)));
+                        commentCar.setContent(finalObject.getString(TAG_CCONTENT));
+                        commentCar.setUser_id(Integer.parseInt(finalObject.getString(TAG_CUSER_ID)));
+                        commentCars.add(commentCar);
+                    }
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            //show car list on gridview
+            CarDetailsGridViewScrollable commentGridView= (CarDetailsGridViewScrollable) findViewById(R.id.commentView);
+//            commentGridView= (GridView) findViewById(R.id.commentView);
+            commentGridView.setAdapter(new CarDetailsCommentsAdapter(CarDetails.this, commentCars));
+        }
 
+    }
     //use AsyncTask to run JsonParse on a different thread
     private class CarDetailsJSONParse extends AsyncTask<String, String, JSONArray> {
 
@@ -140,7 +195,6 @@ public class CarDetails extends AppCompatActivity {
             carDetailsContact.setText(car.get(0).getContact());
             carDetailsNotes.setText(car.get(0).getNotes());
             carDetailsCreatedAt.setText(car.get(0).getCreatedAt());
-
         }
     }
 

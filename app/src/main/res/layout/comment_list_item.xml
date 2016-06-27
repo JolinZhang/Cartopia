@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/buy_card">
+
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:elevation="10dp"
+        android:layout_margin="10dp"
+        android:id = "@+id/comment_icon"
+        android:src="@mipmap/ic_comment"
+        />
+    <!--comment user and comment-->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_user"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_content"/>
+        </LinearLayout>
+    <!--delete button-->
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/comment_delete"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:text="Delete"
+        android:textColor="#ffffff"
+        android:background="#3f51b5"
+        android:elevation="10dp"/>
+
+</LinearLayout>
