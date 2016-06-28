@@ -17,8 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity {
     private TextView logon_tv;
@@ -279,17 +288,37 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(String... params) {
-            url = "http://cartopia.club/api/signup?username=" + signup_username + "&email=" +signup_email+ "&password=" + signup_password + "&password_confirmation=" + signup_password_confirmation;
-            JsonParser jParser = new JsonParser();
-            //Getting String from URL
-            strUrl = jParser.getJsonFromUrl(url);
-            // Getting JSON from URL
-            try {
-                obj = new JSONObject(strUrl);
-            } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            url = "http://cartopia.club/api/signup";
+            // defaultHttpClient
+            DefaultHttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url);
+            JSONObject userObj = new JSONObject();
+            String response = null;
+            JSONObject json = new JSONObject();
+            try{
+                // add the car's info into userObj
+                userObj.put("username", signup_username );
+                userObj.put("email", signup_email);
+                userObj.put("password", signup_password);
+                userObj.put("password_confirmation", signup_password_confirmation);
+                StringEntity se = new StringEntity(userObj.toString());
+                post.setEntity(se);
+                // setup the request headers
+                post.setHeader("Accept", "application/json");
+                post.setHeader("Content-Type", "application/json");
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                response = client.execute(post, responseHandler);
+                json = new JSONObject(response);
+            }catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return obj;
+            return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
