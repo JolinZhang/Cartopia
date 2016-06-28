@@ -50,7 +50,7 @@ public class CarDetailsCommentsAdapter extends BaseAdapter {
         TextView content = (TextView) view.findViewById(R.id.comment_content);
 
         //set all info on car list card
-        user.setText(mCommentItems.get(position).getUser_id() + "");
+        user.setText(mCommentItems.get(position).getUser_name() + "");
         content.setText(mCommentItems.get(position).getContent() + "");
         return view;
     }

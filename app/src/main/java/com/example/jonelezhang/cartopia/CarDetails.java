@@ -56,9 +56,6 @@ public class CarDetails extends AppCompatActivity {
     //comment JSON
     private String commentUrl;
     private String commentStrUrl;
-    static JSONArray commentObj = null;
-    private CarDetailsCommentsItem commentCar;
-    private ArrayList<CarDetailsCommentsItem> commentCars;
     //comment JSON Node Names
     private static final String TAG_CID = "id";
     private static final String TAG_CCONTENT = "content";
@@ -85,6 +82,9 @@ public class CarDetails extends AppCompatActivity {
     }
     //use AsyncTask to run JsonParse on a different thread to show comment list
     private class CarDetailsCommentJSONParse extends AsyncTask<String,String,JSONArray>{
+        private JSONArray commentObj = null;
+        private CarDetailsCommentsItem commentCar;
+        private ArrayList<CarDetailsCommentsItem> commentCars;
 
         @Override
         protected JSONArray doInBackground(String... params) {
@@ -107,10 +107,13 @@ public class CarDetails extends AppCompatActivity {
                 if(json != null){
                     for(int i=0; i<json.length(); i++) {
                         JSONObject finalObject = json.getJSONObject(i);
+                        JSONObject finalObjectComment = finalObject.getJSONObject("comments");
+                        String finalObjectUser = finalObject.getString("user_name");
                         commentCar = new CarDetailsCommentsItem();
-                        commentCar.setId(Integer.parseInt(finalObject.getString(TAG_CID)));
-                        commentCar.setContent(finalObject.getString(TAG_CCONTENT));
-                        commentCar.setUser_id(Integer.parseInt(finalObject.getString(TAG_CUSER_ID)));
+                        commentCar.setId(Integer.parseInt(finalObjectComment.getString(TAG_CID)));
+                        commentCar.setContent(finalObjectComment.getString(TAG_CCONTENT));
+                        commentCar.setUser_id(Integer.parseInt(finalObjectComment.getString(TAG_CUSER_ID)));
+                        commentCar.setUser_name(finalObjectUser);
                         commentCars.add(commentCar);
                     }
                 }
