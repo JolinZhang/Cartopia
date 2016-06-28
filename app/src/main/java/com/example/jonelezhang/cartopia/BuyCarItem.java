@@ -16,6 +16,7 @@ public class BuyCarItem {
     private String contact;
     private String  notes;
     private boolean issold;
+    private int user_id;
     private String createdAt;
     private String updatedAt;
 
@@ -52,6 +53,7 @@ public class BuyCarItem {
     }
     public void setContact(String contact) {this.contact = contact;}
     public void setNotes(String notes){this.notes = notes;}
+    public void setUser_id(int user_id){this.user_id = user_id;}
     public void setCreatedAt(String createdAt){this.createdAt = createdAt;}
 
     // get methods
@@ -68,6 +70,7 @@ public class BuyCarItem {
     public String getState(){return state;}
     public String getContact(){return contact;}
     public String getNotes(){return notes;}
+    public int getUser_id(){return user_id;}
     public String getCreatedAt(){return createdAt;}
 
 }

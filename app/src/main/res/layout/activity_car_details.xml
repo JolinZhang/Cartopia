@@ -201,11 +201,6 @@
                 android:layout_margin="8dp"
                 android:verticalSpacing="13dp"/>
 
-
-            <!--android:numColumns="auto_fit"-->
-            <!--android:columnWidth="100dp"-->
-            <!--android:stretchMode="columnWidth"-->
-
             </LinearLayout>
 
     </ScrollView>

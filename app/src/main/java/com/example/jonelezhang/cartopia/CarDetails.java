@@ -41,6 +41,7 @@ public class CarDetails extends AppCompatActivity {
     private static final String TAG_STATE = "state";
     private static final String TAG_CONTACT = "contact";
     private static final String TAG_NOTES = "notes";
+    private static final String TAG_USER_ID = "user_id";
     private static final String TAG_CREATEDAT = "created_at";
     // widgets on car details
     private  TextView carDetailsPrice;
@@ -65,7 +66,7 @@ public class CarDetails extends AppCompatActivity {
     private static final String TAG_CCONTENT = "content";
     private static final String TAG_CUSER_ID = "user_id";
     //widgets of view
-    private GridView commentGridView;
+    private CarDetailsGridViewScrollable commentGridView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,7 @@ public class CarDetails extends AppCompatActivity {
         new CarDetailsCommentJSONParse().execute(commentUrl);
 
     }
-    //use AsyncTask to run JsonParse on a different thread
+    //use AsyncTask to run JsonParse on a different thread to show comment list
     private class CarDetailsCommentJSONParse extends AsyncTask<String,String,JSONArray>{
 
         @Override
@@ -119,13 +120,13 @@ public class CarDetails extends AppCompatActivity {
                 e.printStackTrace();
             }
             //show car list on gridview
-            CarDetailsGridViewScrollable commentGridView= (CarDetailsGridViewScrollable) findViewById(R.id.commentView);
-//            commentGridView= (GridView) findViewById(R.id.commentView);
+            commentGridView= (CarDetailsGridViewScrollable) findViewById(R.id.commentView);
             commentGridView.setAdapter(new CarDetailsCommentsAdapter(CarDetails.this, commentCars));
         }
 
     }
-    //use AsyncTask to run JsonParse on a different thread
+
+    //use AsyncTask to run JsonParse on a different thread to show car details
     private class CarDetailsJSONParse extends AsyncTask<String, String, JSONArray> {
 
         @Override
@@ -162,6 +163,7 @@ public class CarDetails extends AppCompatActivity {
                         buyCar.setState(finalObject.getString(TAG_STATE));
                         buyCar.setContact(finalObject.getString(TAG_CONTACT));
                         buyCar.setNotes(finalObject.getString(TAG_NOTES));
+                        buyCar.setUser_id(Integer.parseInt(finalObject.getString(TAG_USER_ID)));
                         buyCar.setCreatedAt(finalObject.getString(TAG_CREATEDAT));
                         car.add(buyCar);
                     }
@@ -190,7 +192,7 @@ public class CarDetails extends AppCompatActivity {
             carDetailsYear.setText( car.get(0).getYear()+" ");
             carDetailsMake.setText(car.get(0).getMake()+" ");
             carDetailsModel.setText( car.get(0).getModel()+" ");
-            carDetailsCity.setText(car.get(0).getCity()+",");
+            carDetailsCity.setText(car.get(0).getCity() + ",");
             carDetailsState.setText(car.get(0).getState());
             carDetailsContact.setText(car.get(0).getContact());
             carDetailsNotes.setText(car.get(0).getNotes());
