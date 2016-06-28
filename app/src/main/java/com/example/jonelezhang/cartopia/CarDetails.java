@@ -26,9 +26,6 @@ public class CarDetails extends AppCompatActivity {
     //JSON
     private String url;
     private String strUrl;
-    static JSONArray obj = null;
-    private BuyCarItem buyCar;
-    private ArrayList<BuyCarItem> car;
     //JSON Node Names
     private static final String TAG_ID = "id";
     private static final String TAG_PICTURE = "picture";
@@ -51,6 +48,7 @@ public class CarDetails extends AppCompatActivity {
     private TextView carDetailsModel;
     private  TextView carDetailsCity;
     private TextView carDetailsState;
+    private TextView carDetailsUser;
     private TextView carDetailsContact;
     private TextView carDetailsNotes;
     private TextView carDetailsCreatedAt;
@@ -127,15 +125,20 @@ public class CarDetails extends AppCompatActivity {
     }
 
     //use AsyncTask to run JsonParse on a different thread to show car details
-    private class CarDetailsJSONParse extends AsyncTask<String, String, JSONArray> {
+    private class CarDetailsJSONParse extends AsyncTask<String, String, JSONObject> {
+        private JSONObject obj = null;
+        private BuyCarItem buyCar;
+        private ArrayList<BuyCarItem> car;
+        private JSONArray jsonCar;
+        private String jsonUser;
 
         @Override
-        protected JSONArray doInBackground(String... params) {
+        protected JSONObject doInBackground(String... params) {
             JsonParser jParser = new JsonParser();
             strUrl = jParser.getJsonFromUrl(params[0]);
             // Getting JSON from URL
             try {
-                obj = new JSONArray(strUrl);
+                obj = new JSONObject(strUrl);
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
@@ -143,14 +146,16 @@ public class CarDetails extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONArray json) {
+        protected void onPostExecute(JSONObject json) {
             //get car id value
             try {
                 // Storing  JSON item in a Variable, define an ArrayList carItems to store all cars' info.
+                jsonCar = json.getJSONArray("car");
+                jsonUser = json.getString("user_name");
                 car = new ArrayList<>();
                 if(json != null){
-                    for(int i=0; i<json.length(); i++) {
-                        JSONObject finalObject = json.getJSONObject(i);
+                    for(int i=0; i<jsonCar.length(); i++) {
+                        JSONObject finalObject = jsonCar.getJSONObject(i);
                         buyCar = new BuyCarItem();
                         buyCar.setId(Integer.parseInt(finalObject.getString(TAG_ID)));
                         buyCar.setImageResourceId(finalObject.getString(TAG_PICTURE));
@@ -165,6 +170,7 @@ public class CarDetails extends AppCompatActivity {
                         buyCar.setNotes(finalObject.getString(TAG_NOTES));
                         buyCar.setUser_id(Integer.parseInt(finalObject.getString(TAG_USER_ID)));
                         buyCar.setCreatedAt(finalObject.getString(TAG_CREATEDAT));
+                        buyCar.setUsername(jsonUser);
                         car.add(buyCar);
                     }
                 }
@@ -180,6 +186,7 @@ public class CarDetails extends AppCompatActivity {
             carDetailsModel = (TextView) findViewById(R.id.carDetails_model);
             carDetailsCity = (TextView) findViewById(R.id.carDetails_city);
             carDetailsState = (TextView) findViewById(R.id.carDetails_state);
+            carDetailsUser = (TextView) findViewById(R.id.carDetails_user);
             carDetailsContact = (TextView) findViewById(R.id.carDetails_contact);
             carDetailsNotes = (TextView) findViewById(R.id.carDetails_note);
             carDetailsCreatedAt = (TextView) findViewById(R.id.carDetails_createAt);
@@ -194,6 +201,7 @@ public class CarDetails extends AppCompatActivity {
             carDetailsModel.setText( car.get(0).getModel()+" ");
             carDetailsCity.setText(car.get(0).getCity() + ",");
             carDetailsState.setText(car.get(0).getState());
+            carDetailsUser.setText(car.get(0).getUsername());
             carDetailsContact.setText(car.get(0).getContact());
             carDetailsNotes.setText(car.get(0).getNotes());
             carDetailsCreatedAt.setText(car.get(0).getCreatedAt());

@@ -19,6 +19,7 @@ public class BuyCarItem {
     private int user_id;
     private String createdAt;
     private String updatedAt;
+    private String username;
 
    //constructor
     public BuyCarItem(){
@@ -55,6 +56,7 @@ public class BuyCarItem {
     public void setNotes(String notes){this.notes = notes;}
     public void setUser_id(int user_id){this.user_id = user_id;}
     public void setCreatedAt(String createdAt){this.createdAt = createdAt;}
+    public void setUsername(String username){this.username = username;}
 
     // get methods
     public int   getId(){return id;}
@@ -72,6 +74,7 @@ public class BuyCarItem {
     public String getNotes(){return notes;}
     public int getUser_id(){return user_id;}
     public String getCreatedAt(){return createdAt;}
+    public String getUsername(){return username;}
 
 }
 
