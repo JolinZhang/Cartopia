@@ -70,8 +70,6 @@ public class Sell extends ToolbarConfiguringActivity {
     private String _contact;
     private String _notes;
     private String user_id;
-    //initial sharedPreference to set Token
-    private SharedPreferences mPreferences;
     private static final String sell_url = "http://cartopia.club/api/cars";
     //picture path
     private TextView photoPath;
