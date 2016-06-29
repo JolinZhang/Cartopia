@@ -42,4 +42,7 @@
         <item name="android:textColor">@color/TextColorPrimary</item>
         <item name="textAllCaps">true</item>
     </style>
+    <!--button delete button shadow-->
+    <style name="MyButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+    </style>
 </resources>

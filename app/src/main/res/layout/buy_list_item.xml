@@ -43,12 +43,14 @@
                 android:id="@+id/buy_mileage"
                 android:layout_toRightOf="@id/buy_price"
                 android:layout_centerVertical="true" />
+
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:id="@+id/favorite"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="20dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_favorite"
+                android:src="@mipmap/ic_favorite_border"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 />

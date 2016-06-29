@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -81,6 +82,8 @@ public class Buy extends ToolbarConfiguringActivity{
         // get json data for car buy list
         new BuyJSONParse().execute();
 
+
+
         //right show sort nav list array of string and icon
         sPlanetTitles = getResources().getStringArray(R.array.sort_array);
         img = getResources().obtainTypedArray(R.array.icon_sort_array);
@@ -123,7 +126,9 @@ public class Buy extends ToolbarConfiguringActivity{
                 new BuyJSONParse().execute();
             }
         });
+
     }
+
     //use AsyncTask to run JsonParse on a different thread
     private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {
         @Override
@@ -180,10 +185,13 @@ public class Buy extends ToolbarConfiguringActivity{
                     // pass car id to CarDetails activity
                     ee = carItems.get(position);
                     Intent i = new Intent(Buy.this, CarDetails.class);
-                    i.putExtra("id", ee.getId()+"");
+                    i.putExtra("id", ee.getId() + "");
                     startActivity(i);
                 }
             });
+
+
+
 
         }
     }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,13 +65,40 @@ public class CarListAdapter extends BaseAdapter {
         GetImage.getImage(buyImage,mCarItems.get(position));
         //set all info on car list card
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
-        buyMileage.setText(mCarItems.get(position).getMileage()+"mi");
+        buyMileage.setText(mCarItems.get(position).getMileage() + "mi");
         buyYear.setText( mCarItems.get(position).getYear()+" ");
         buyMake.setText(mCarItems.get(position).getMake()+" ");
         buyModel.setText( mCarItems.get(position).getModel()+" ");
         buyCity.setText(mCarItems.get(position).getCity()+",");
         buyState.setText( mCarItems.get(position).getState());
+
+        //favorite icon click issue
+        final ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            int count = 1;
+
+            @Override
+            public void onClick(View v) {
+                if (count == 1) {
+                    favorite.setImageResource(R.mipmap.ic_favorite);
+                    count++;
+//                    new addFavorite().execute();
+                } else {
+                    favorite.setImageResource(R.mipmap.ic_favorite_border);
+                    count--;
+//                    new removeFavorite().execute();
+                }
+            }
+        });
         return view;
 
     }
+
+
+
+
+
+
+
+
 }
