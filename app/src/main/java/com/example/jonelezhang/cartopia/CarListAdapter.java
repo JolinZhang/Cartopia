@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +41,9 @@ public class CarListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     //favorite animation
     private String addFav;
-    private String deleteFav;
+    private String delFav;
+    static JSONObject del_fav_obj = null;
     private String _car_id;
-    private String _user_id;
     private int count = 1;
     private ImageView favorite;
     //JSON Node Names
@@ -104,14 +105,18 @@ public class CarListAdapter extends BaseAdapter {
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count == 1) {
+                if (!mCarItems.get(position).getIsfav()) {
                     _car_id = String.valueOf(mCarItems.get(position).getId());
                     addFav = "http://cartopia.club/api/favs";
-                    new addFavorite().execute(addFav, _car_id);
-                }
-                if(count == 2){
-                    favorite.setImageResource(R.mipmap.ic_favorite_border);
-                    count--;
+                    new addFavorite().execute(addFav, _car_id, position+"");
+//                    favorite.setImageResource(R.mipmap.ic_favorite);
+
+                }else{
+                    _car_id = String.valueOf(mCarItems.get(position).getId());
+                    delFav = "http://cartopia.club/api/favdestroy?car_id="+_car_id+"&user_id=";
+                    new delFavorite().execute(delFav, _car_id, position+"");
+//                    favorite.setImageResource(R.mipmap.ic_favorite_border);
+
                 }
             }
         });
@@ -121,9 +126,10 @@ public class CarListAdapter extends BaseAdapter {
 
         //Add Favorite, use AsyncTask to run JsonParse on a different thread
     private class addFavorite extends AsyncTask<String, String, JSONObject> {
-
+        int position;
         @Override
         protected JSONObject doInBackground(String... params) {
+            position = Integer.parseInt(params[2]);
             //get current user_id
             SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
             String current_user_id = sharedpreferences.getString("Current_User","");
@@ -156,28 +162,68 @@ public class CarListAdapter extends BaseAdapter {
             }
             return json;
         }
-            @Override
-            protected void onPostExecute(JSONObject json) {
-                try {
-                    // Storing  JSON item in a Variable
-                    String success = json.getString(TAG_SUCCESS);
-                    if(success.equals("1")){
-                        favorite.setImageResource(R.mipmap.ic_favorite);
-                        count++;
-                    }else{
-                        onLoginFailed();
-                    }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Storing  JSON item in a Variable
+                String success = json.getString(TAG_SUCCESS);
+                if(success.equals("1")){
+                    favorite.setImageResource(R.mipmap.ic_favorite);
+                    mCarItems.get(position).setIsfav(true);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else{
+                    onLoginFailed();
                 }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        }
             }
 
     //log in failed operation
     public void onLoginFailed() {
         Toast.makeText(mContext, "save failed", Toast.LENGTH_SHORT).show();
     }
+
+    //Delete Favorite, use AsyncTask to run JsonParse on a different thread
+    private class delFavorite extends AsyncTask<String, String, JSONObject> {
+        int position;
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            position = Integer.parseInt(params[2]);
+            //get current user_id
+            SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            String current_user_id = sharedpreferences.getString("Current_User", "");
+            String delurl =params[0] + current_user_id;
+            JsonParser jParser = new JsonParser();
+            //Getting String from URL
+            String delstr = jParser.getJsonFromUrl(delurl);
+            // Getting JSON from URL
+            try {
+                del_fav_obj = new JSONObject(delstr);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return del_fav_obj;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Storing  JSON item in a Variable
+                String success = json.getString(TAG_SUCCESS);
+                if(success.equals("2")){
+                    favorite.setImageResource(R.mipmap.ic_favorite_border);
+                    mCarItems.get(position).setIsfav(false);
+                }else{
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
 
