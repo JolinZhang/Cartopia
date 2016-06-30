@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
     //widget on on log in page
     private EditText _login_username;
     private EditText _login_password;
+    private CheckBox _login_remember;
     private Button _loginButton;
     //login JSON
     private String login_username;
     private String login_password;
     private String url;
-    private String strUrl;
+    private boolean isChecked = false;
     static JSONObject obj = null;
     //sign up JSON
     private String signup_username;
@@ -65,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     //SharedPreferences sharedpreferences for user id;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Current_User = "Current_User";
+    public static final String Current_User_Name = "Current_User_Name";
+    public static final String Current_User_Password = "Current_User_Password";
+    public static final String Checked = "isChecked";
     SharedPreferences sharedpreferences;
 
     @Override
@@ -146,11 +151,43 @@ public class MainActivity extends AppCompatActivity {
         _login_username = (EditText) findViewById(R.id.logon_username);
         _login_password = (EditText) findViewById(R.id.logon_password);
         _loginButton = (Button) findViewById(R.id.logon_btn);
+        _login_remember =(CheckBox) findViewById(R.id.logon_remember);
+
+        //initial shared shared preferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        //if save username and password, no need to text, otherwise text.
+        if(!sharedpreferences.getString(Current_User_Name,"").isEmpty()){
+            login_username = sharedpreferences.getString(Current_User_Name,"");
+            login_password = sharedpreferences.getString(Current_User_Password,"");
+            isChecked = sharedpreferences.getBoolean(Checked, true);
+            _login_username.setText(login_username);
+            _login_password.setText(login_password);
+            _login_remember.setChecked(isChecked);
+        }
+
+        //check box listener
+        _login_remember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(_login_remember.isChecked()){
+                    isChecked = true;
+                }
+                if(!_login_remember.isChecked()){
+                    isChecked = false;
+                }
+            }
+        });
 
         // log in button operations
         _loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                if(sharedpreferences.getString(Current_User_Name,"").isEmpty()){
+                    //get content of login username and password
+                    login_username = _login_username.getText().toString();
+                    login_password = _login_password.getText().toString();
+                    _login_remember.setChecked(isChecked);
+                }
                 //log in function to check validation and get json file
                 login();
             }
@@ -171,25 +208,19 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
-        //initial shared shared preferences
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
     }
 
     //log in function
     public void login() {
 
-//        startActivity(new Intent(MainActivity.this, Buy.class));
-
-        //get content of login username and password
-        login_username = _login_username.getText().toString();
-        login_password = _login_password.getText().toString();
         //check validation of log in
         if (!login_validate(login_username, login_password)) {
             //fail log in caused by validation
             onLoginFailed();
             return;
         }
+
         //check username and passport with json file after validation
         new Login_JSONParse().execute();
         //login success operation
@@ -218,9 +249,21 @@ public class MainActivity extends AppCompatActivity {
                 // Storing  JSON item in a Variable
                 String success = json.getString(TAG_SUCCESS);
                 if(success.equals("1")){
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    //if check the remember me, then keep user's username and password.
+                    if(isChecked && sharedpreferences.getString(Current_User_Name,"").isEmpty() ){
+                        editor.putString(Current_User_Name, login_username);
+                        editor.putString(Current_User_Password,login_password);
+                        editor.putBoolean(Checked, true);
+                        editor.commit();
+                    }
+                    if(!isChecked && !sharedpreferences.getString(Current_User_Name,"").isEmpty()){
+                        editor.remove(Current_User_Name).commit();
+                        editor.remove(Current_User_Password).commit();
+                        editor.remove(Checked).commit();
+                    }
                     // put current user's id in shared preferences
                     String id = json.getString(TAG_ID);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(Current_User, id);
                     editor.commit();
                     startActivity(new Intent(MainActivity.this, Buy.class));
@@ -327,6 +370,11 @@ public class MainActivity extends AppCompatActivity {
                 String success = json.getString(TAG_SUCCESS);
                 if(success.equals("1")){
                     String id = json.getString(TAG_ID);
+                    //initial shared shared preferences
+                    sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(Current_User, id);
+                    editor.commit();
                     startActivity(new Intent(MainActivity.this, Buy.class));
                 }else{
                     onsignupFailed();
