@@ -1,6 +1,8 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,6 +55,7 @@ public class Buy extends ToolbarConfiguringActivity{
     private static final String TAG_MILEAGE = "mileage";
     private static final String TAG_CITY = "city";
     private static final String TAG_STATE = "state";
+    private static final String TAG_ISFAV = "isfav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,11 +136,13 @@ public class Buy extends ToolbarConfiguringActivity{
     private class BuyJSONParse extends AsyncTask<String, String, JSONArray> {
         @Override
         protected JSONArray doInBackground(String... args) {
+            SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            String user_id = sharedpreferences.getString("Current_User","");
             JsonParser jParser = new JsonParser();
             // Getting JSON from URL
             if(sort_list_item.length() == 0){
                 //url for right sort list
-                url = "http://cartopia.club/api/cars";
+                url = "http://cartopia.club/api/carsfavs?user_id="+user_id;
             }else{
                 url = "http://cartopia.club/api/sort?sort="+sort_list_item;
             }
@@ -169,6 +174,7 @@ public class Buy extends ToolbarConfiguringActivity{
                         buyCar.setModel(finalObject.getString(TAG_MODEL));
                         buyCar.setCity(finalObject.getString(TAG_CITY));
                         buyCar.setState(finalObject.getString(TAG_STATE));
+                        buyCar.setIsfav(finalObject.getBoolean(TAG_ISFAV));
                         carItems.add(buyCar);
                     }
                 }

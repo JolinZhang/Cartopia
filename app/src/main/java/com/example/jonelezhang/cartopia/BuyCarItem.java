@@ -20,6 +20,7 @@ public class BuyCarItem {
     private String createdAt;
     private String updatedAt;
     private String username;
+    private Boolean isfav;
 
    //constructor
     public BuyCarItem(){
@@ -57,6 +58,7 @@ public class BuyCarItem {
     public void setUser_id(int user_id){this.user_id = user_id;}
     public void setCreatedAt(String createdAt){this.createdAt = createdAt;}
     public void setUsername(String username){this.username = username;}
+    public void setIsfav(boolean isfav){this.isfav = isfav;}
 
     // get methods
     public int   getId(){return id;}
@@ -75,6 +77,7 @@ public class BuyCarItem {
     public int getUser_id(){return user_id;}
     public String getCreatedAt(){return createdAt;}
     public String getUsername(){return username;}
+    public boolean getIsfav(){return isfav;}
 
 }
 
