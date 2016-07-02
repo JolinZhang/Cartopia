@@ -14,6 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/favspager"
+            android:layout_width="match_parent"
+            android:layout_height="0px" />
+
         <!--left Listview to display slider menu -->
         <ListView
             android:id="@+id/navList"

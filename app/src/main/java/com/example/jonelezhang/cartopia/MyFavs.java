@@ -1,5 +1,7 @@
 package com.example.jonelezhang.cartopia;
 
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +25,14 @@ public class MyFavs extends ToolbarConfiguringActivity {
         toolbar_title.setText("MY FAVS");
         toolbar_filter = (TextView) findViewById(R.id.toolbar_filter);
         toolbar_filter.setVisibility(View.INVISIBLE);
+
+
+        //realization of view pager
+        ViewPager vpPager = (ViewPager) findViewById(R.id.favspager);
+        vpPager.setAdapter(new MyFavsFragmentPagerAdapter(getSupportFragmentManager(), MyFavs.this));
+        //Customize the Animation with PageTransformer
+        vpPager.setPageTransformer(true, new MyFavsZoomOutPageTransformer());
+
     }
 
     @Override
