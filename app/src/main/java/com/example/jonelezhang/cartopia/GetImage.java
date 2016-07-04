@@ -15,7 +15,7 @@ import java.net.URL;
  * Created by Jonelezhang on 6/26/16.
  */
 public class GetImage {
-    public static void getImage(final ImageView buyImage, final BuyCarItem carItem) {
+    public static void getImage(final ImageView buyImage, final String ImageRescources) {
         Bitmap output = null;
         buyImage.setImageBitmap(output);
         //get and set image in a separate thread
@@ -25,7 +25,7 @@ public class GetImage {
                 try {
                     try {
                         //get image bitmap inputStream
-                        String imageUrl = "http://cartopia.club/assets/user_car/" + carItem.getImageResourceId();
+                        String imageUrl = "http://cartopia.club/assets/user_car/" + ImageRescources;
                         Bitmap src = BitmapFactory.decodeStream((InputStream) new URL(imageUrl).getContent());
 
                         //rescale bitmap size. factor is 0.5

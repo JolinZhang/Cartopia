@@ -85,7 +85,7 @@ public class CarListAdapter extends BaseAdapter {
 
         // initial bitmap as  null
         final ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
-        GetImage.getImage(buyImage,mCarItems.get(position));
+        GetImage.getImage(buyImage,mCarItems.get(position).getImageResourceId());
         //set all info on car list card
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage() + "mi");

@@ -195,7 +195,7 @@ public class CarDetails extends AppCompatActivity {
             carDetailsCreatedAt = (TextView) findViewById(R.id.carDetails_createAt);
             // initial bitmap as  null
             carDetailsImage = (ImageView) findViewById(R.id.carDetails_image);
-            GetImage.getImage(carDetailsImage, car.get(0));
+            GetImage.getImage(carDetailsImage, car.get(0).getImageResourceId());
             //set all info on car list card
             carDetailsPrice.setText("$"+car.get(0).getPrice() + "");
             carDetailsMileage.setText(car.get(0).getMileage() + "mi");

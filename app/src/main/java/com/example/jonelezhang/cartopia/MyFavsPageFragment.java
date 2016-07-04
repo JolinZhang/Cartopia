@@ -25,33 +25,23 @@ import java.util.ArrayList;
  */
 public class MyFavsPageFragment extends Fragment {
     public static final String ARG_PAGE = "page";
+    public static final String ARG_IMAGE = "image";
+    public static final String ARG_CAR_ID = "car_id";
     private int mPageNumber;
+    private String mPageImage;
+    private int mPageCarId;
     Context mContext;
-    // Favs json
-    private String url;
-    private String strUrl;
-    static JSONObject obj = null;
-    private ArrayList<BuyCarItem> Items;
-    private String count;
-    private JSONArray favsItems;
-    private BuyCarItem favsCar;
-    private BuyCarItem ee;
-    //JSON data
-    private static final String TAG_COUNT = "count";
-    private static final String TAG_FAVS = "favs";
-    private static final String TAG_PICTURE = "picture";
-    private static final String TAG_CAR_ID = "car_id";
+    // favs fragement image view
+    private ImageView tv;
 
-    private ImageView  tv;
-
-    public static MyFavsPageFragment create(int pageNumber) {
+    public static MyFavsPageFragment create(int pageNumber, BuyCarItem item) {
         MyFavsPageFragment fragment = new MyFavsPageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
+        args.putString(ARG_IMAGE,item.getImageResourceId());
+        args.putInt(ARG_CAR_ID, item.getCar_id());
         fragment.setArguments(args);
         return fragment;
-    }
-    public MyFavsPageFragment() {
     }
 
     @Override
@@ -59,6 +49,9 @@ public class MyFavsPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mContext = this.getActivity();
         mPageNumber = getArguments().getInt(ARG_PAGE);
+        mPageImage = getArguments().getString(ARG_IMAGE);
+        mPageCarId = getArguments().getInt(ARG_CAR_ID);
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,61 +62,18 @@ public class MyFavsPageFragment extends Fragment {
 
         // Set the title view to show the page number.
         tv = (ImageView) rootView.findViewById(R.id.favs_image);
-//        tv.setText((mPageNumber + 1) + "");
-
-        new FavsJSONParse().execute();
+        GetImage.getImage(tv,mPageImage);
+        // image click issue and show car details
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CarDetails.class);
+                i.putExtra("id", mPageCarId + "");
+                startActivity(i);
+            }
+        });
 
         return rootView;
-    }
-
-    private class FavsJSONParse extends AsyncTask<String, String, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(String... params) {
-            SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-            String user_id = sharedpreferences.getString("Current_User", "");
-            JsonParser jParser = new JsonParser();
-            url = "http://cartopia.club/api/favs?user_id="+ user_id;
-            strUrl = jParser.getJsonFromUrl(url);
-            // Getting JSON from URL
-            try {
-                obj = new JSONObject(strUrl);
-            } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-            return obj;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                count  = json.getString(TAG_COUNT);
-                Items = new ArrayList<>();
-                favsItems = json.getJSONArray(TAG_FAVS);
-                if(json != null){
-                    for(int i=0; i<json.length(); i++) {
-                        JSONObject finalObject = favsItems.getJSONObject(i);
-                        favsCar = new BuyCarItem();
-                        favsCar.setCar_id(finalObject.getInt(TAG_CAR_ID));
-                        favsCar.setImageResourceId(finalObject.getString(TAG_PICTURE));
-                        Items.add(favsCar);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            GetImage.getImage(tv,Items.get(mPageNumber));
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ee = Items.get(mPageNumber);
-                    Intent i = new Intent(getActivity(), CarDetails.class);
-                    i.putExtra("id", ee.getCar_id() + "");
-                    startActivity(i);
-                }
-            });
-        }
-
-
     }
 
 
