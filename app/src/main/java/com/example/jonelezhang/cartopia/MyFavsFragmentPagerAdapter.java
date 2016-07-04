@@ -15,7 +15,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Jonelezhang on 6/30/16.
  */
 public class MyFavsFragmentPagerAdapter extends FragmentStatePagerAdapter {
-    final int PAGE_COUNT = 3;
+    final int PAGE_COUNT = 2;
     private Context context;
 
     //constructor

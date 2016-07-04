@@ -17,6 +17,7 @@ public class BuyCarItem {
     private String  notes;
     private boolean issold;
     private int user_id;
+    private int car_id;
     private String createdAt;
     private String updatedAt;
     private String username;
@@ -56,6 +57,7 @@ public class BuyCarItem {
     public void setContact(String contact) {this.contact = contact;}
     public void setNotes(String notes){this.notes = notes;}
     public void setUser_id(int user_id){this.user_id = user_id;}
+    public void setCar_id(int car_id){this.car_id = car_id;}
     public void setCreatedAt(String createdAt){this.createdAt = createdAt;}
     public void setUsername(String username){this.username = username;}
     public void setIsfav(boolean isfav){this.isfav = isfav;}
@@ -75,6 +77,7 @@ public class BuyCarItem {
     public String getContact(){return contact;}
     public String getNotes(){return notes;}
     public int getUser_id(){return user_id;}
+    public int getCar_id(){return car_id;}
     public String getCreatedAt(){return createdAt;}
     public String getUsername(){return username;}
     public boolean getIsfav(){return isfav;}
