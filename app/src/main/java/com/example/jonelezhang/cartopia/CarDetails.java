@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CarDetails extends AppCompatActivity {
@@ -172,7 +174,16 @@ public class CarDetails extends AppCompatActivity {
                         buyCar.setContact(finalObject.getString(TAG_CONTACT));
                         buyCar.setNotes(finalObject.getString(TAG_NOTES));
                         buyCar.setUser_id(Integer.parseInt(finalObject.getString(TAG_USER_ID)));
-                        buyCar.setCreatedAt(finalObject.getString(TAG_CREATEDAT));
+                        try{
+                            String formattedDate = finalObject.getString(TAG_CREATEDAT);
+                            String reformattedStr = new SimpleDateFormat("dd/MM/yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse(formattedDate));
+                            buyCar.setCreatedAt(reformattedStr);}
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+
                         buyCar.setUsername(jsonUser);
                         car.add(buyCar);
                     }
