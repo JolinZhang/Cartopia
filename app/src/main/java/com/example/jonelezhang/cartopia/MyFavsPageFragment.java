@@ -2,23 +2,12 @@ package com.example.jonelezhang.cartopia;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by Jonelezhang on 7/1/16.
@@ -33,6 +22,7 @@ public class MyFavsPageFragment extends Fragment {
     Context mContext;
     // favs fragement image view
     private ImageView tv;
+
 
     public static MyFavsPageFragment create(int pageNumber, BuyCarItem item) {
         MyFavsPageFragment fragment = new MyFavsPageFragment();
@@ -51,7 +41,6 @@ public class MyFavsPageFragment extends Fragment {
         mPageNumber = getArguments().getInt(ARG_PAGE);
         mPageImage = getArguments().getString(ARG_IMAGE);
         mPageCarId = getArguments().getInt(ARG_CAR_ID);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,10 +48,10 @@ public class MyFavsPageFragment extends Fragment {
         // Inflate the layout containing a title and body text.
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.my_favs_fragment_page, container, false);
-
         // Set the title view to show the page number.
         tv = (ImageView) rootView.findViewById(R.id.favs_image);
-        GetImage.getImage(tv,mPageImage);
+        GetImage.getImage(tv, mPageImage);
+
         // image click issue and show car details
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,10 +61,6 @@ public class MyFavsPageFragment extends Fragment {
                 startActivity(i);
             }
         });
-
         return rootView;
     }
-
-
-
 }

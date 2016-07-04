@@ -22,11 +22,12 @@
             android:orientation="vertical">
             //car details
             <LinearLayout
+                android:background="@drawable/buy_card"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:id="@+id/carDetailsInfo"
-                android:orientation="vertical"
-                android:background="#FFFFFF">
+                android:orientation="vertical">
 
             <ImageView
                 android:layout_width="fill_parent"
