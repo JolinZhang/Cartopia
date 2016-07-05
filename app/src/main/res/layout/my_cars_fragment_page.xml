@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="10dp"
-    android:background="#aa3399">
+    android:orientation="vertical">
 
     <TextView
         android:layout_height="wrap_content"
@@ -16,7 +15,7 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="180dp"
+        android:layout_height="fill_parent"
         android:id="@+id/mycars_image"
         android:layout_gravity="center_vertical"/>
 

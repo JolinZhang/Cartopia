@@ -12,8 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MyCars extends ToolbarConfiguringActivity {
     //widget on actionbar
@@ -23,6 +26,13 @@ public class MyCars extends ToolbarConfiguringActivity {
     //Mycars json
     private String url;
     private String strUrl;
+    static JSONArray obj = null;
+    //json data
+    private ArrayList<BuyCarItem> Items;
+    private BuyCarItem myCars;
+    private int count;
+    private static final String TAG_PICTURE = "picture";
+    private static final String TAG_CAR_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,39 +46,58 @@ public class MyCars extends ToolbarConfiguringActivity {
         toolbar_filter = (TextView) findViewById(R.id.toolbar_filter);
         toolbar_filter.setVisibility(View.INVISIBLE);
 
-
-
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        viewPager = (ViewPager) findViewById(R.id.mycarspager);
-        viewPager.setClipToPadding(false);
-        viewPager.setPageMargin(20);
-        viewPager.setAdapter(new MyCarsFragmentPagerAdapter(getSupportFragmentManager(), MyCars.this));
-
-
-        // Show the picture of the favs image
-//        new CarsJSONParse().execute();
+        // Show the picture of the cars image
+        new CarsJSONParse().execute();
 
     }
 
-//    //get info in mycars
-//    private class CarsJSONParse extends AsyncTask<String, String, JSONObject> {
-//
-//        @Override
-//        protected JSONObject doInBackground(String... params) {
-//            SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-//            String user_id = sharedpreferences.getString("Current_User", "");
-//            JsonParser jParser = new JsonParser();
-//            url = "http://cartopia.club/api/cars?user_id=" + user_id;
-//            strUrl = jParser.getJsonFromUrl(url);
-//            // Getting JSON from URL
-//            try {
-//                obj = new JSONObject(strUrl);
-//            } catch (JSONException e) {
-//                Log.e("JSON Parser", "Error parsing data " + e.toString());
-//            }
-//            return obj;
-//        }
-//    }
+    //get info in mycars
+    private class CarsJSONParse extends AsyncTask<String, String, JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(String... params) {
+            SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            String user_id = sharedpreferences.getString("Current_User", "");
+            JsonParser jParser = new JsonParser();
+            url = "http://cartopia.club/api/cars?user_id=" + user_id;
+            strUrl = jParser.getJsonFromUrl(url);
+            // Getting JSON from URL
+            try {
+                obj = new JSONArray(strUrl);
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return obj;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray json) {
+            try {
+                Items = new ArrayList<>();
+                if (json != null) {
+                    count = json.length();
+                    for (int i = 0; i < json.length(); i++) {
+                        JSONObject finalObject = json.getJSONObject(i);
+                        myCars = new BuyCarItem();
+                        myCars.setCar_id(finalObject.getInt(TAG_CAR_ID));
+                        myCars.setImageResourceId(finalObject.getString(TAG_PICTURE));
+                        Items.add(myCars);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Get the ViewPager and set it's PagerAdapter so that it can display items
+            viewPager = (ViewPager) findViewById(R.id.mycarspager);
+            viewPager.setClipToPadding(false);
+            viewPager.setPageMargin(20);
+            viewPager.setOffscreenPageLimit(5);
+            viewPager.setAdapter(new MyCarsFragmentPagerAdapter(getSupportFragmentManager(), MyCars.this,count,Items));
+
+
+        }
+    }
 
 
 
