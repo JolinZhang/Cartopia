@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CarDetails extends AppCompatActivity {
-    //widget on actionbar
-    private TextView toolbar_filter;
+    //tool bar
+    private Toolbar toolbar;
     //JSON
     private String url;
     private String strUrl;
@@ -68,13 +70,24 @@ public class CarDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
-        //invisible filter block.
-        toolbar_filter = (TextView) findViewById(R.id.toolbar_filter);
-        toolbar_filter.setVisibility(View.INVISIBLE);
+
+        // toolbar
+        toolbar = (Toolbar) findViewById(R.id.carDetails_bar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    onBackPressed();
+                    //or popbackstack or whatever you are using to going back in navigation
+            }
+        });
+
+
         //get car id value from buy activity
         final Intent intent = getIntent();
         String car_id = intent.getStringExtra("id");
-        url = "http://cartopia.club/api/cars?id="+car_id;
+        url = "http://cartopia.club/api/cars?id=" + car_id;
         // get json data for car buy list
         new CarDetailsJSONParse().execute(url);
         //get json data from comment for car details
