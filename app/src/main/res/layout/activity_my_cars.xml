@@ -16,6 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mycarspager"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:paddingLeft="50dp"
+            android:paddingRight="100dp"
+            android:layout_weight="1"/>
+
         <!--left Listview to display slider menu -->
         <ListView
             android:id="@+id/navList"
