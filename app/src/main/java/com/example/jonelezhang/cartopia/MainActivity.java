@@ -157,12 +157,14 @@ public class MainActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         //if save username and password, no need to text, otherwise text.
         if(!sharedpreferences.getString(Current_User_Name,"").isEmpty()){
-            login_username = sharedpreferences.getString(Current_User_Name,"");
-            login_password = sharedpreferences.getString(Current_User_Password,"");
-            isChecked = sharedpreferences.getBoolean(Checked, true);
-            _login_username.setText(login_username);
-            _login_password.setText(login_password);
-            _login_remember.setChecked(isChecked);
+//            login_username = sharedpreferences.getString(Current_User_Name,"");
+//            login_password = sharedpreferences.getString(Current_User_Password,"");
+//            isChecked = sharedpreferences.getBoolean(Checked, true);
+//            _login_username.setText(login_username);
+//            _login_password.setText(login_password);
+//            _login_remember.setChecked(isChecked);
+            startActivity(new Intent(MainActivity.this, Buy.class));
+
         }
 
         //check box listener
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         _loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                //no username and passowrd
                 if(sharedpreferences.getString(Current_User_Name,"").isEmpty()){
                     //get content of login username and password
                     login_username = _login_username.getText().toString();
