@@ -254,20 +254,17 @@ public class MainActivity extends AppCompatActivity {
                 if(success.equals("1")){
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     //if check the remember me, then keep user's username and password.
-                    if(isChecked && sharedpreferences.getString(Current_User_Name,"").isEmpty() ){
-                        editor.putString(Current_User_Name, login_username);
-                        editor.putString(Current_User_Password,login_password);
+                    if(isChecked ){
                         editor.putBoolean(Checked, true);
                         editor.commit();
                     }
-                    if(!isChecked && !sharedpreferences.getString(Current_User_Name,"").isEmpty()){
-                        editor.remove(Current_User_Name).commit();
-                        editor.remove(Current_User_Password).commit();
+                    if(!isChecked && !sharedpreferences.getString(Checked,"").isEmpty()){
                         editor.remove(Checked).commit();
                     }
                     // put current user's id in shared preferences
                     String id = json.getString(TAG_ID);
                     editor.putString(Current_User, id);
+                    editor.putString(Current_User_Name, login_username);
                     editor.commit();
                     startActivity(new Intent(MainActivity.this, Buy.class));
                 }else{
@@ -377,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
                     sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(Current_User, id);
+                    editor.putString(Current_User_Name, signup_username);
                     editor.commit();
                     startActivity(new Intent(MainActivity.this, Buy.class));
                 }else{

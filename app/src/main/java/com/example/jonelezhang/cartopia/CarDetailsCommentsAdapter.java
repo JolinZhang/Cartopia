@@ -1,6 +1,8 @@
 package com.example.jonelezhang.cartopia;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,18 @@ public class CarDetailsCommentsAdapter extends BaseAdapter {
         //set all info on car list card
         user.setText(mCommentItems.get(position).getUser_name() + "");
         content.setText(mCommentItems.get(position).getContent() + "");
+
+        //get user id
+        SharedPreferences sharedpreferences = mContext.getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        String user_name = sharedpreferences.getString("Current_User_Name", "");
+        //get delete button
+        AppCompatButton delete = (AppCompatButton) view.findViewById(R.id.comment_delete);
+        if(user_name.equals(mCommentItems.get(position).getUser_name() + "")){
+            //set click issue of add comment
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.INVISIBLE);
+        }
         return view;
     }
 }

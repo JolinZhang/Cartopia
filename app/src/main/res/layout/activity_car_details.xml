@@ -65,15 +65,15 @@
                 android:id="@+id/carDetails_mileage"
                 android:layout_toRightOf="@id/carDetails_price"
                 android:layout_centerVertical="true" />
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_favorite"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                />
+            <!--<ImageView-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/ic_favorite"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--/>-->
         </RelativeLayout>
 
         <LinearLayout
