@@ -1,25 +1,35 @@
 package com.example.jonelezhang.cartopia;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +76,13 @@ public class CarDetails extends AppCompatActivity {
     private static final String TAG_CUSER_ID = "user_id";
     //widgets of view
     private CarDetailsGridViewScrollable commentGridView;
+    //add comment
+    private AppCompatButton add;
+    private EditText _addComments;
+    private String addCommentUrl;
+    private static final String TAG_SUCCESS = "success";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,15 +95,15 @@ public class CarDetails extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    onBackPressed();
-                    //or popbackstack or whatever you are using to going back in navigation
+                onBackPressed();
+                //or popbackstack or whatever you are using to going back in navigation
             }
         });
 
 
         //get car id value from buy activity
         final Intent intent = getIntent();
-        String car_id = intent.getStringExtra("id");
+        final String car_id = intent.getStringExtra("id");
         url = "http://cartopia.club/api/cars?id=" + car_id;
         // get json data for car buy list
         new CarDetailsJSONParse().execute(url);
@@ -94,7 +111,85 @@ public class CarDetails extends AppCompatActivity {
         commentUrl ="http://cartopia.club/api/comments?car_id="+car_id;
         new CarDetailsCommentJSONParse().execute(commentUrl);
 
+        //set click issue of add comment
+        add = (AppCompatButton) findViewById(R.id.comment_add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get user id
+                SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                String user_id = sharedpreferences.getString("Current_User", "");
+                // content for comment
+                _addComments = (EditText) findViewById(R.id.add_comments);
+                String _content = _addComments.getText().toString();
+                //post add a new comment
+                addCommentUrl = "http://cartopia.club/api/comments";
+                new CarDetailsAddCommentJSONParse().execute(addCommentUrl,car_id,user_id, _content);
+            }
+        });
+
+
     }
+    //use AsyncTask to run JsonParse on a different thread to add comment
+    private class CarDetailsAddCommentJSONParse extends AsyncTask<String, String, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            // defaultHttpClient
+            DefaultHttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost(params[0]);
+            JSONObject commentObj = new JSONObject();
+            String response = null;
+            JSONObject json = new JSONObject();
+            try{
+                // add the car's info into userObj
+                commentObj.put("car_id", params[1]);
+                commentObj.put("user_id", params[2] );
+                commentObj.put("content",params[3]);
+                StringEntity se = new StringEntity(commentObj.toString());
+                post.setEntity(se);
+                // setup the request headers
+                post.setHeader("Accept", "application/json");
+                post.setHeader("Content-Type", "application/json");
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                response = client.execute(post, responseHandler);
+                json = new JSONObject(response);
+            }catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                // Storing  JSON item in a Variable
+                String success = json.getString(TAG_SUCCESS);
+                if(success.equals("1")){
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }else{
+                    onCommendAddFailed();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    //add comment failed operation
+    public void onCommendAddFailed() {
+        Toast.makeText(getBaseContext(), "Comment Add failed", Toast.LENGTH_SHORT).show();
+    }
+
     //use AsyncTask to run JsonParse on a different thread to show comment list
     private class CarDetailsCommentJSONParse extends AsyncTask<String,String,JSONArray>{
         private JSONArray commentObj = null;
