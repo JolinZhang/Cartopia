@@ -195,6 +195,7 @@
         </LinearLayout>
     </LinearLayout>
         </LinearLayout>
+            <!--comment list-->
             <com.example.jonelezhang.cartopia.CarDetailsGridViewScrollable
                 android:id="@+id/commentView"
                 android:layout_width="match_parent"
@@ -202,7 +203,54 @@
                 android:layout_margin="8dp"
                 android:verticalSpacing="13dp"/>
 
+            <!--add comment -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal"
+                android:background="@drawable/buy_card">
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:elevation="10dp"
+                    android:layout_margin="10dp"
+                    android:id = "@+id/comment_icon"
+                    android:src="@mipmap/ic_comment"
+                    />
+                <!--comment user and comment-->
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="180dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/add_comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="comment"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:layout_gravity="center_horizontal"
+                        android:maxLines="10"
+                        android:lines="1"/>
+                </LinearLayout>
+                <!--delete button-->
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/comment_add"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Add"
+                    android:textColor="#ffffff"
+                    android:background="#3f51b5"
+                    android:elevation="10dp"/>
+
             </LinearLayout>
+
+
+        </LinearLayout>
 
     </ScrollView>
 
