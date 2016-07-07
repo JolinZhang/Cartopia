@@ -53,7 +53,8 @@
         <activity
             android:name=".CarDetails"
             android:label="@string/title_activity_car_details"
-            android:theme="@style/BuyTheme">
+            android:theme="@style/BuyTheme"
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 

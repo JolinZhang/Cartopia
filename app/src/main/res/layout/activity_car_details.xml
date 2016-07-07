@@ -223,7 +223,9 @@
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="180dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/add_comments"
