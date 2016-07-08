@@ -3,6 +3,7 @@ package com.example.jonelezhang.cartopia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class CarListAdapter extends BaseAdapter {
     static JSONObject del_fav_obj = null;
     private String _car_id;
     private int count = 1;
-    private ImageView favorite;
+//    private ImageView favorite;
     //JSON Node Names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_ID = "id";
@@ -81,7 +82,7 @@ public class CarListAdapter extends BaseAdapter {
         TextView buyModel = (TextView) view.findViewById(R.id.buy_model);
         TextView buyCity = (TextView) view.findViewById(R.id.buy_city);
         TextView buyState = (TextView) view.findViewById(R.id.buy_state);
-        favorite = (ImageView) view.findViewById(R.id.favorite);
+        ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
 
         // initial bitmap as  null
         final ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
@@ -108,13 +109,13 @@ public class CarListAdapter extends BaseAdapter {
                 if (!mCarItems.get(position).getIsfav()) {
                     _car_id = String.valueOf(mCarItems.get(position).getId());
                     addFav = "http://cartopia.club/api/favs";
-                    new addFavorite().execute(addFav, _car_id, position+"");
+                    new addFavorite(v).execute(addFav, _car_id, position+"");
 //                    favorite.setImageResource(R.mipmap.ic_favorite);
 
                 }else{
                     _car_id = String.valueOf(mCarItems.get(position).getId());
                     delFav = "http://cartopia.club/api/favdestroy?car_id="+_car_id+"&user_id=";
-                    new delFavorite().execute(delFav, _car_id, position+"");
+                    new delFavorite(v).execute(delFav, _car_id, position+"");
 //                    favorite.setImageResource(R.mipmap.ic_favorite_border);
 
                 }
@@ -127,6 +128,10 @@ public class CarListAdapter extends BaseAdapter {
         //Add Favorite, use AsyncTask to run JsonParse on a different thread
     private class addFavorite extends AsyncTask<String, String, JSONObject> {
         int position;
+            private View view;
+            public addFavorite(View v){
+                this.view = v;
+            }
         @Override
         protected JSONObject doInBackground(String... params) {
             position = Integer.parseInt(params[2]);
@@ -168,7 +173,8 @@ public class CarListAdapter extends BaseAdapter {
                 // Storing  JSON item in a Variable
                 String success = json.getString(TAG_SUCCESS);
                 if(success.equals("1")){
-                    favorite.setImageResource(R.mipmap.ic_favorite);
+                    ImageView fav = (ImageView) view.findViewById(R.id.favorite);
+                    fav.setImageResource(R.mipmap.ic_favorite);
                     mCarItems.get(position).setIsfav(true);
 
                 }else{
@@ -189,6 +195,11 @@ public class CarListAdapter extends BaseAdapter {
     //Delete Favorite, use AsyncTask to run JsonParse on a different thread
     private class delFavorite extends AsyncTask<String, String, JSONObject> {
         int position;
+        private View view;
+        public delFavorite(View v){
+            this.view = v;
+        }
+
         @Override
         protected JSONObject doInBackground(String... params) {
             position = Integer.parseInt(params[2]);
@@ -213,7 +224,8 @@ public class CarListAdapter extends BaseAdapter {
                 // Storing  JSON item in a Variable
                 String success = json.getString(TAG_SUCCESS);
                 if(success.equals("2")){
-                    favorite.setImageResource(R.mipmap.ic_favorite_border);
+                    ImageView fav = (ImageView) view.findViewById(R.id.favorite);
+                    fav.setImageResource(R.mipmap.ic_favorite_border);
                     mCarItems.get(position).setIsfav(false);
                 }else{
                 }
