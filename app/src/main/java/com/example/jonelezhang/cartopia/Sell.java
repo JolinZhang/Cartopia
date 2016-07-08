@@ -189,12 +189,12 @@ public class Sell extends ToolbarConfiguringActivity {
             int columnIndex = c.getColumnIndex(filePath[0]);
             //get photo path
             picturePath=c.getString(columnIndex);
-            //get photo extension
-            String file_extn = picturePath.substring(picturePath.lastIndexOf(".")+1);
+            File file = new File(picturePath);
+            String strFileName = file.getName();
             c.close();
             //show pciture path on the text view
             photoPath = (TextView) findViewById(R.id.photo_path);
-            photoPath.setText(picturePath);
+            photoPath.setText(strFileName);
         }
     }
 

@@ -54,58 +54,58 @@
                     android:layout_marginRight="10dp"/>
                 </LinearLayout>
             <!--layout for second line mileage, price-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_height="60dp"
                 android:layout_width="fill_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2"
+                >
                 <EditText
                     android:id="@+id/sell_mileage"
-                    android:layout_width="130dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
                     android:hint="@string/mileage"
                     android:inputType="number"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_marginLeft="20dp" />
                 <EditText
                     android:id="@+id/sell_price"
-                    android:layout_width="130dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
                     android:hint="@string/price"
                     android:inputType="number"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="20dp"
-                    android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                    android:layout_marginRight="20dp" />
+                </LinearLayout>
             <!--layout for the third line state, city-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_height="60dp"
                 android:layout_width="fill_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
                 <Spinner
                     android:id="@+id/sell_state"
                     android:layout_height="40dp"
-                    android:layout_width="110dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"/>
                 <EditText
                     android:id="@+id/sell_state_error"
                     android:layout_height="40dp"
-                    android:layout_width="3dp"
-                    android:layout_toRightOf="@+id/sell_state"/>
+                    android:layout_width="1dp"
+                    android:enabled="false"
+                    android:inputType="none"/>
                 <EditText
                     android:id="@+id/sell_city"
-                    android:layout_width="130dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
                     android:hint="@string/city"
                     android:inputType="text"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="20dp"
-                    android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                    android:layout_marginRight="20dp" />
+                </LinearLayout>
             <!--layout for the forth line contact-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_height="60dp"
                 android:layout_width="fill_parent"
                 android:orientation="horizontal">
@@ -115,13 +115,11 @@
                     android:layout_height="40dp"
                     android:hint="@string/contact"
                     android:inputType="text"
-                    android:layout_alignParentStart="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                    android:layout_marginRight="10dp" />
+                </LinearLayout>
             <!--layout for the fifth line note-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_height="100dp"
                 android:layout_width="fill_parent"
                 android:orientation="horizontal">
@@ -137,9 +135,9 @@
                     android:layout_gravity="center_horizontal"
                     android:maxLines="30"
                     android:lines="3"/>
-                </RelativeLayout>
+                </LinearLayout>
             <!--layout for show choose image path-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_height="50dp"
                 android:layout_width="fill_parent"
                 android:orientation="horizontal">
@@ -147,7 +145,7 @@
                     android:id="@+id/photo_path"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                </RelativeLayout>
+                </LinearLayout>
             <!--layout for choose photo and submit button-->
             <RelativeLayout
                 android:layout_height="40dp"
