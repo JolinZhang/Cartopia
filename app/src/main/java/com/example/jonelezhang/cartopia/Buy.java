@@ -127,6 +127,7 @@ public class Buy extends ToolbarConfiguringActivity{
                         break;
                 }
                 new BuyJSONParse().execute();
+                mDrawerLayout.closeDrawer(Gravity.RIGHT);
             }
         });
 
@@ -183,7 +184,10 @@ public class Buy extends ToolbarConfiguringActivity{
             }
             //show car list on gridview
             gridView = (GridView) findViewById(R.id.gridView);
-            gridView.setAdapter(new CarListAdapter(Buy.this, carItems));
+            CarListAdapter carListAdapter = new CarListAdapter(Buy.this, carItems);
+            carListAdapter.notifyDataSetChanged();
+            gridView.setAdapter(carListAdapter);
+            gridView.invalidateViews();
             //click item to transparent car id.
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
