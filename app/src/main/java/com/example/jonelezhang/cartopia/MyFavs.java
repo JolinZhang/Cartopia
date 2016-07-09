@@ -92,6 +92,7 @@ public class MyFavs extends ToolbarConfiguringActivity {
 
             //realization of view pager
             ViewPager vpPager = (ViewPager) findViewById(R.id.favspager);
+//            vpPager.setOffscreenPageLimit(5);
             vpPager.setAdapter(new MyFavsFragmentPagerAdapter(getSupportFragmentManager(), MyFavs.this, count, Items));
 
             //Customize the Animation with PageTransformer
