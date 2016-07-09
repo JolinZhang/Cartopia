@@ -184,6 +184,7 @@ public class Buy extends ToolbarConfiguringActivity{
             }
             //show car list on gridview
             gridView = (GridView) findViewById(R.id.gridView);
+            gridView.invalidateViews();
             CarListAdapter carListAdapter = new CarListAdapter(Buy.this, carItems);
             carListAdapter.notifyDataSetChanged();
             gridView.setAdapter(carListAdapter);
