@@ -78,7 +78,7 @@ public class MyFavs extends ToolbarConfiguringActivity {
                 Items = new ArrayList<>();
                 favsItems = json.getJSONArray(TAG_FAVS);
                 if(json != null){
-                    for(int i=0; i<json.length(); i++) {
+                    for(int i=0; i<count; i++) {
                         JSONObject finalObject = favsItems.getJSONObject(i);
                         favsCar = new BuyCarItem();
                         favsCar.setCar_id(finalObject.getInt(TAG_CAR_ID));
