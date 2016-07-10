@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -314,7 +316,10 @@ public class CarDetails extends AppCompatActivity {
             carDetailsCreatedAt = (TextView) findViewById(R.id.carDetails_createAt);
             // initial bitmap as  null
             carDetailsImage = (ImageView) findViewById(R.id.carDetails_image);
-            GetImage.getImage(carDetailsImage, car.get(0).getImageResourceId());
+            // GetImage.getImage(carDetailsImage, car.get(0).getImageResourceId());
+
+            Glide.with(CarDetails.this).load("http://cartopia.club/assets/user_car/" + car.get(0).getImageResourceId()).into(carDetailsImage);
+
             //set all info on car list card
             carDetailsPrice.setText("$"+car.get(0).getPrice() + "");
             carDetailsMileage.setText(car.get(0).getMileage() + "mi");

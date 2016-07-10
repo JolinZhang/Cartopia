@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -86,7 +88,14 @@ public class CarListAdapter extends BaseAdapter {
 
         // initial bitmap as  null
         final ImageView buyImage = (ImageView)view.findViewById(R.id.buy_image);
-        GetImage.getImage(buyImage,mCarItems.get(position).getImageResourceId());
+//        GetImage.getImage(buyImage,mCarItems.get(position).getImageResourceId());
+        Glide
+                .with(mContext)
+                .load("http://cartopia.club/assets/user_car/" + mCarItems.get(position).getImageResourceId())
+                .crossFade()
+                .into(buyImage);
+
+
         //set all info on car list card
         buyPrice.setText("$"+mCarItems.get(position).getPrice() + "");
         buyMileage.setText(mCarItems.get(position).getMileage() + "mi");

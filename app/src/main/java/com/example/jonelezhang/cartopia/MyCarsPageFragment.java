@@ -10,6 +10,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by Jonelezhang on 7/5/16.
  */
@@ -49,10 +51,16 @@ public class MyCarsPageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_cars_fragment_page, container, false);
 
         tx = (TextView) rootView.findViewById(R.id.text1);
-        tx.setText(mPage+"");
+        //tx.setText(mPage+"");
         // Set the title view to show the page number.
         tv = (ImageView) rootView.findViewById(R.id.mycars_image);
-        GetImage.getImage(tv, mPageImage);
+        //GetImage.getImage(tv, mPageImage);
+        Glide
+                .with(getActivity().getApplicationContext())
+                .load("http://cartopia.club/assets/user_car/" + mPageImage)
+                .crossFade()
+                .into(tv);
+
 
         // image click issue and show car details
         tv.setOnClickListener(new View.OnClickListener() {

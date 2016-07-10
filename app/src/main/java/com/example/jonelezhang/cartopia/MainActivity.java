@@ -211,9 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
-
     }
-
     //log in function
     public void login() {
 

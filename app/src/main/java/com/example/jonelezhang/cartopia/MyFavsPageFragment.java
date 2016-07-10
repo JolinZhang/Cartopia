@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by Jonelezhang on 7/1/16.
  */
@@ -50,7 +52,12 @@ public class MyFavsPageFragment extends Fragment {
                 .inflate(R.layout.my_favs_fragment_page, container, false);
         // Set the title view to show the page number.
         tv = (ImageView) rootView.findViewById(R.id.favs_image);
-        GetImage.getImage(tv, mPageImage);
+        //GetImage.getImage(tv, mPageImage);
+        Glide
+                .with(getActivity().getApplicationContext())
+                .load("http://cartopia.club/assets/user_car/" + mPageImage)
+                .crossFade()
+                .into(tv);
 
         // image click issue and show car details
         tv.setOnClickListener(new View.OnClickListener() {
